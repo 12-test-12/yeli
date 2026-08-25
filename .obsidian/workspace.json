@@ -1,0 +1,239 @@
+{
+  "main": {
+    "id": "8119fa19355a7078",
+    "type": "split",
+    "children": [
+      {
+        "id": "60919714a185de40",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "64c4487fca5eef5e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "欢迎.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "欢迎"
+            }
+          },
+          {
+            "id": "4d622d8a8b173138",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "blog/archetypes/essay.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "essay"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "bea0ac0f95ad462a",
+    "type": "split",
+    "children": [
+      {
+        "id": "ab039ecf46027fc7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "dc37f414d72edbff",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "e6048811ef25b257",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "0090adfea84417c9",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "0ef44c5c3be84d43",
+    "type": "split",
+    "children": [
+      {
+        "id": "e3cdc767a10a9237",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1af30a85587c1e7e",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "blog/archetypes/essay.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "反向链接"
+            }
+          },
+          {
+            "id": "d02e316c8a999113",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "未命名.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "出链"
+            }
+          },
+          {
+            "id": "73dc3d284018b717",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "d5c743ba6e9404b1",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "beb17d6d405b4115",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "未命名.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false,
+      "obsidian-excalidraw-plugin:新建绘图文件": false,
+      "note-to-mp:复制到公众号": false,
+      "file-tree-alternative:File Tree Alternative Plugin": false
+    }
+  },
+  "active": "4d622d8a8b173138",
+  "lastOpenFiles": [
+    "blog/archetypes/devlog.md",
+    "blog/archetypes/project.md",
+    "blog/content/page/search.md",
+    "blog/content/page/links.md",
+    "blog/content/page/archives.md",
+    "blog/content/page/about.md",
+    "blog/static/favicon.svg",
+    "blog/archetypes/essay.md",
+    "blog/archetypes/posts.md",
+    "blog/content/posts/spring-jpa-field-mapping.md",
+    "blog/content/posts/project-yeli-blog.md",
+    "blog/content/posts/kmp-structure.md",
+    "blog/content/posts/github-actions-hugo-deploy.md",
+    "blog/content/posts/essay-why-writing.md",
+    "未命名.md",
+    "blog/README.md",
+    "blog/layouts/index.html",
+    "blog/static/js/geek.js",
+    "blog/static/css/geek.css",
+    "blog/hugo.yaml",
+    "blog/layouts/_default",
+    "blog/layouts/partials",
+    "blog/layouts/page",
+    "blog/static/js",
+    "blog/static/img",
+    "blog/static/css",
+    "欢迎.md",
+    "未命名.canvas"
+  ]
+}

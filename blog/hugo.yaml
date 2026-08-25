@@ -1,0 +1,157 @@
+# =============================================================
+# Hugo 站点主配置
+# 个人 IP 风格 / 深色全屏极客风 / 基于 Stack 主题魔改
+# =============================================================
+
+baseURL: "https://你的用户名.github.io/"
+title: "YeLi's Blog"
+theme: hugo-theme-stack
+
+# 站点默认语言 (zh-cn)，Stack 主题自带 i18n
+defaultContentLanguage: zh-cn
+hasCJKLanguage: true
+defaultContentLanguageInSubdir: false
+
+# 主题参数：始终深色 + 全屏极客风
+params:
+  # ===== 基础信息 (个人 IP 区域) =====
+  title: "YeLi"
+  description: "代码 · 折腾 · 记录"
+  keywords:
+    - 博客
+    - 个人 IP
+    - 技术笔记
+    - 项目记录
+  author: "YeLi"
+  images:
+    - /img/avatar.png
+
+  # ===== 关键：始终深色 + 极简全屏 =====
+  defaultTheme: dark
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: false
+  ShowCodeCopyButtons: true
+  ShowRssButtonInSectionTermList: true
+  disableSpecial1stPost: true
+  favicon: /favicon.svg
+
+  # ===== 极客风：自定义 CSS / JS =====
+  customCSS:
+    - css/geek.css
+  customJS:
+    - js/geek.js
+
+  # ===== 文章卡片样式：全屏 hero 风格 =====
+  cardStyle:
+    view: fullcover
+    list:
+      columns: 1
+    grid:
+      columns: 2
+
+  # ===== 菜单栏 (极简) =====
+  mainSections:
+    - posts
+  sections:
+    - posts
+  widgets:
+    homepage:
+      - search
+      - archives
+    page:
+      - search
+    sidebar:
+      - search
+      - social
+      - archives
+  social:
+    - identifier: github
+      name: GitHub
+      url: https://github.com/你的用户名
+    - identifier: email
+      name: Email
+      url: mailto:你的邮箱@example.com
+    - identifier: rss
+      name: RSS
+      url: /index.xml
+
+  comments:
+    enable: false
+
+# =============================================================
+# 输出格式
+# =============================================================
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+  page:
+    - HTML
+  section:
+    - HTML
+    - RSS
+  taxonomy:
+    - HTML
+    - RSS
+
+# =============================================================
+# 菜单 (极简 4 个)
+# =============================================================
+menu:
+  main:
+    - identifier: home
+      name: 首页
+      url: /
+      weight: 1
+    - identifier: notes
+      name: 笔记
+      url: /posts/
+      weight: 2
+    - identifier: projects
+      name: 项目
+      url: /categories/project/
+      weight: 3
+    - identifier: about
+      name: 关于
+      url: /about/
+      weight: 4
+
+# =============================================================
+# Permalinks
+# =============================================================
+permalinks:
+  posts: /posts/:slug/
+  tags: /tags/:slug/
+  categories: /categories/:slug/
+
+# =============================================================
+# Markdown 设置
+# =============================================================
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+    style: monokai
+    tabWidth: 4
+  tableOfContents:
+    endLevel: 3
+    ordered: false
+    startLevel: 2
+  figure:
+    enable: true
+
+# =============================================================
+# Taxonomies
+# =============================================================
+taxonomies:
+  category: categories
+  tag: tags
+  series: series

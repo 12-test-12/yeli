@@ -1,0 +1,50 @@
+{{ define "main" }}
+<div class="hero">
+  {{ with .Site.Params.images }}
+  <img class="hero-avatar" src="{{ index . 0 }}" alt="avatar" />
+  {{ end }}
+
+  <h1 class="hero-name">{{ .Site.Params.author | default "YeLi" }}</h1>
+  <p class="hero-tagline">
+    <span class="typed"></span><span class="cursor">&nbsp;</span>
+  </p>
+  <p class="hero-bio">
+    {{ .Site.Params.description }}<br>
+    这里记录我在技术、项目、生活中的折腾过程。<br>
+    相信「写下来」是对抗遗忘最好的方式。
+  </p>
+
+  <nav class="hero-links">
+    <a href="/posts/">/posts</a>
+    <a href="/categories/tech/">/tech</a>
+    <a href="/categories/devlog/">/devlog</a>
+    <a href="/categories/project/">/project</a>
+    <a href="/categories/essay/">/essay</a>
+    <a href="/about/">/about</a>
+  </nav>
+</div>
+
+<h2 class="section-title">最近更新</h2>
+<section class="article-list--compact">
+  {{ range first 8 (where .Site.RegularPages "Type" "in" (slice "posts" "project" "devlog" "essay")) }}
+    {{ .Render "article-list/compact" }}
+  {{ end }}
+</section>
+
+<h2 class="section-title">分类导航</h2>
+<section class="article-list--compact">
+  {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+    <article>
+      <h3 class="article-title">
+        <a href="{{ printf "/categories/%s/" $name | urlize }}">{{ $name | title }} · {{ .Count }} 篇</a>
+      </h3>
+      <p class="article-subtitle">
+        {{ if eq $name "tech" }}技术学习笔记 — 编程语言、框架、工具链。{{ end }}
+        {{ if eq $name "devlog" }}项目开发记录 — 踩坑、调试、复盘。{{ end }}
+        {{ if eq $name "project" }}项目分享 — 独立项目、开源作品。{{ end }}
+        {{ if eq $name "essay" }}杂谈随笔 — 思考、读书、生活。{{ end }}
+      </p>
+    </article>
+  {{ end }}
+</section>
+{{ end }}
