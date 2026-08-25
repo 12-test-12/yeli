@@ -205,8 +205,10 @@
       "file-tree-alternative:File Tree Alternative Plugin": false
     }
   },
-  "active": "4d622d8a8b173138",
+  "active": "dc37f414d72edbff",
   "lastOpenFiles": [
+    "blog/themes/hugo-theme-stack/README.md",
+    "blog/themes/hugo-theme-stack/LICENSE",
     "blog/content/posts/project-yeli-blog.md",
     "blog/content/posts/kmp-structure.md",
     "blog/content/posts/github-actions-hugo-deploy.md",
@@ -223,7 +225,6 @@
     "blog/content/page/about.md.tmp.21776.a6082964dee1",
     "blog/content/page/about.md.tmp.21776.b8595a86e9b7",
     "blog/static/js/geek.js.tmp.21776.b9a81d5fe8cc",
-    "blog/layouts/index.html.tmp.21776.db1d209a39f8",
     "blog/archetypes/essay.md",
     "blog/archetypes/posts.md",
     "blog/content/posts/spring-jpa-field-mapping.md",
@@ -252,7 +253,6 @@
     "blog/themes/hugo-theme-stack/demo/content/post/shortcodes/index.zh.md",
     "blog/themes/hugo-theme-stack/demo/content/post/shortcodes/index.md",
     "blog/themes/hugo-theme-stack/demo/content/post/shortcodes/index.ja.md",
-    "blog/themes/hugo-theme-stack/demo/content/post/shortcodes/index.zh-hant-tw.md",
     "未命名.canvas"
   ]
 }
