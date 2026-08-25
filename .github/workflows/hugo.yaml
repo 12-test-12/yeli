@@ -5,15 +5,14 @@ on:
     branches: [master, main]
   workflow_dispatch:
 
-# 允许一个并发部署，排队期间取消旧的
+# 一次只跑一个部署任务
 concurrency:
   group: pages
   cancel-in-progress: false
 
+# 用内容写权限：推 gh-pages 分支即可，不依赖 Pages API
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 # Hugo 站点在 blog/ 子目录里
 defaults:
@@ -21,40 +20,39 @@ defaults:
     working-directory: blog
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
+      # ---- 1. 检出源码（含子模块 = hugo 主题）----
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
 
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
-
+      # ---- 2. 装最新 Hugo extended ----
+      # 主题用新版模板函数 hash.FNV32a，需较新 Hugo；latest 自动解决
       - name: Setup Hugo (extended)
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: '0.124.1'
+          hugo-version: 'latest'
           extended: true
 
+      # ---- 3. 构建（working-directory 已是 blog/）----
       - name: Build
-        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        run: hugo --minify
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      # ---- 4. 部署到 gh-pages 分支 ----
+      # 经典方案，GITHUB_TOKEN 即可，无需额外 PAT / Pages API
+      # 第一次 push 后，去 Settings → Pages → Source 选 Deploy from a branch: gh-pages
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: blog/public
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'deploy: ${{ github.event.head_commit.message }}'
+          full_commit_message: 'Auto-deployed by GitHub Actions\nCommit: ${{ github.sha }}\nMessage: ${{ github.event.head_commit.message }}'
