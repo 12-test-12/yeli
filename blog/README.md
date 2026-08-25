@@ -96,26 +96,35 @@ hugo new --kind essay   posts/my-essay.md
 
 ---
 
-## 发布到 GitHub Pages（用户站点模式）
+## 发布到 GitHub Pages（Project Pages 模式）
 
-> 本项目按 `用户名.github.io` 这种 **User/Organization Pages** 形式配置。
-> 这意味着仓库名 **必须** 叫 `<你的用户名>.github.io`，最终地址是 `https://<你的用户名>.github.io/`。
+> 你的仓库是 **`yeli`**（账号 `12-test-12`），URL 为 `https://github.com/12-test-12/yeli`。
+> 这是 **Project Pages**（不是 `github.io` 用户站点），所以要配 `/yeli/` 后缀。
+> - **仓库名**：`yeli`（不要求以 `.github.io` 结尾）
+> - **访问地址**：`https://12-test-12.github.io/yeli/`
+
+### 部署方式说明
+
+本项目用 **`peaceiris/actions-gh-pages` 推 `gh-pages` 分支**的经典方案，
+**不依赖 GitHub Pages Deployment API**，所以不会触发 `configure-pages` 那个 `Not Found` 错误。
+
+代价只是需要在 **第一次部署后**去 GitHub 网页手动选一次分支（之后全自动）。
 
 ### 一次性设置
 
-1. **在 GitHub 新建一个 repo**
-   - 仓库名：`<你的用户名>.github.io`（**严格按这个格式**，否则不会变成用户站点）
-   - 可见性：Public
-   - 不要勾选 "Add a README" / ".gitignore" / "license"（我们要从本地 push 已有内容）
+#### ① 在 GitHub 新建 repo
 
-2. **配置 Pages**
-   - 进入新建的 repo
-   - **Settings → Pages → Source**：选 **`GitHub Actions`**（不是 "Deploy from a branch"）
+- 仓库名：**`yeli`**
+- 可见性：Public
+- 不要勾选 "Add a README" / ".gitignore" / "license"
 
-3. **配置 Actions 权限（关键）**
-   - **Settings → Actions → General → Workflow permissions**
-   - 勾选 **✅ Read and write permissions**
-   - 点 Save
+#### ② 配置 Actions 写权限
+
+- 进入新 repo → **Settings → Actions → General → Workflow permissions**
+- 勾选 **✅ Read and write permissions**
+- Save
+
+> 这一步**只做一次**。之后所有 push 都用 `GITHUB_TOKEN` 自动 push 到 `gh-pages` 分支。
 
 ### 本地初始化 + 推送
 
@@ -125,26 +134,35 @@ cd d:\yeli\blog
 # 1) 初始化 git
 git init
 git add .
-git commit -m "init: yeli's blog"
+git commit -m "init: yeli"
 
-# 2) 默认分支改名
+# 2) 默认分支改名（GitHub 默认分支是 main）
 git branch -M main
 
 # 3) 关联远程仓库
-git remote add origin https://github.com/<你的用户名>/<你的用户名>.github.io.git
+git remote add origin https://github.com/12-test-12/yeli.git
 
 # 4) 第一次推送
 git push -u origin main
 ```
 
-> 仓库地址示例：  
-> 用户名 `yeli` → 仓库 `yeli.github.io` → 地址 `https://yeli.github.io/`
+> 推送时如果弹出登录框，输入 GitHub 账号 `12-test-12` + PAT（不是密码）。  
+> 没 PAT 的去 <https://github.com/settings/tokens> 生成一个，勾选 `repo` 权限。
+
+### ③ 第一次部署后：在 GitHub 网页选分支
+
+Actions 跑完后，会出现一个 `gh-pages` 分支。这时还需要做**最后一步**：
+
+1. 打开 repo → **Settings → Pages**
+2. **Source** 选 **Deploy from a branch**
+3. **Branch** 选 `gh-pages` / `(root)`
+4. Save
+
+> 这只是**第一次**需要做。GitHub 会记住这个设置，之后自动生效。
 
 ### 验证
 
-1. 打开 GitHub repo 的 **Actions** 标签 → 看到 `Deploy Hugo to GitHub Pages` workflow
-2. 等它跑完（一般 1-2 分钟）
-3. 打开 `https://<你的用户名>.github.io/` 看效果
+打开 `https://12-test-12.github.io/yeli/` 看到你的博客即可。
 
 ### 后续发布
 
@@ -154,16 +172,18 @@ git commit -m "new post: xxx"
 git push
 ```
 
-每次 push 到 `main` 都会自动触发部署。
+每次 push 到 `main`，Actions 会自动重新构建并推 `gh-pages` 分支，1-2 分钟后生效。
 
 ### 常见坑
 
 | 现象 | 原因 | 解决 |
 |---|---|---|
-| Actions 失败：`could not read Username` | GITHUB_TOKEN 默认只读 | Settings → Actions → General → 改 Read and write |
+| `actions/configure-pages ... Not Found` | Pages API 不可用（首次配置或权限问题） | 本 workflow 已**不依赖**该 action；用推 `gh-pages` 分支方案 |
+| Actions 失败：`could not read Username` | GITHUB_TOKEN 默认只读 | Settings → Actions → General → 改 **Read and write permissions** |
 | Actions 失败：`TOCSS ... not available` | Hugo 非 extended 版 | 用 `peaceiris/actions-hugo` 并设 `extended: true`（已配好） |
-| 访问 `xxx.github.io` 显示 404 | 仓库名不是 `<用户名>.github.io` | 改名（Settings → General → Rename） |
-| 访问页面 CSS 404 | baseURL 写错 | 检查 `hugo.yaml` 顶部的 `baseURL` 是不是 `https://<用户名>.github.io/` |
+| Actions 失败：`submodule ... not found` | 没拉子模块 | workflow 里 `submodules: recursive`（已配好） |
+| 访问 `12-test-12.github.io` 显示 404 | Project Pages 必须带仓库名路径 | 正确地址是 `https://12-test-12.github.io/yeli/` |
+| 访问 `/yeli/` 但 CSS 404 | `hugo.yaml` 顶部的 `baseURL` 少了 `/yeli/` 后缀 | 应为 `https://12-test-12.github.io/yeli/` |
 | 想用自定义域名 | 见下方 | `static/CNAME` + DNS |
 
 ---
@@ -175,16 +195,16 @@ git push
 编辑 `hugo.yaml`：
 
 ```yaml
-baseURL: "https://你的用户名.github.io/"
+baseURL: "https://12-test-12.github.io/yeli/"
 params:
   title: "YeLi"
   author: "YeLi"
   description: "代码 · 折腾 · 记录"
   social:
     - identifier: github
-      url: https://github.com/你的用户名
+      url: https://github.com/12-test-12
     - identifier: email
-      url: mailto:你的邮箱@example.com
+      url: mailto:you@example.com
 ```
 
 ### 换头像
