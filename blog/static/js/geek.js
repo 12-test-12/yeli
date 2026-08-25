@@ -57,10 +57,11 @@
       window.__gPressed = Date.now();
     }
     if (window.__gPressed && Date.now() - window.__gPressed < 1000) {
-      var P = window.SITE_PATHS || { home: "/", posts: "/posts/", about: "/about/" };
-      if (e.key === "h") window.location.href = P.home;
-      if (e.key === "p") window.location.href = P.posts;
-      if (e.key === "a") window.location.href = P.about;
+      // Project Pages 部署在 /yeli/ 子路径，这里显式用 baseURL 前缀
+      var base = document.documentElement.getAttribute("data-baseurl") || "/yeli/";
+      if (e.key === "h") window.location.href = base;
+      if (e.key === "p") window.location.href = base + "posts/";
+      if (e.key === "a") window.location.href = base + "about/";
     }
   });
 

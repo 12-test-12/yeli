@@ -96,7 +96,7 @@ Settings → Actions → General → Workflow permissions →
 
 如果要 `你的域名.com`：
 1. `static/CNAME` 写一行 `你的域名.com`
-2. DNS 加 CNAME 指向 `你的用户名.github.io.`
+2. DNS 加 CNAME 指向 `12-test-12.github.io.`
 
 ## 收获
 

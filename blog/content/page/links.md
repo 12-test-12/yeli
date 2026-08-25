@@ -15,4 +15,4 @@ ShowShareButtons: false
 - [Hugo](https://gohugo.io/) — 静态站点生成器
 - [Stack 主题](https://stack.jimmycai.com/) — Hugo 主题
 
-> 想交换友链？发邮件到 <你的邮箱@example.com>。
+> 想交换友链？发邮件到 <you@example.com>。
