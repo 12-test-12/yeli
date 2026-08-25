@@ -96,29 +96,75 @@ hugo new --kind essay   posts/my-essay.md
 
 ---
 
-## 发布到 GitHub Pages
+## 发布到 GitHub Pages（用户站点模式）
+
+> 本项目按 `用户名.github.io` 这种 **User/Organization Pages** 形式配置。
+> 这意味着仓库名 **必须** 叫 `<你的用户名>.github.io`，最终地址是 `https://<你的用户名>.github.io/`。
 
 ### 一次性设置
 
-1. 在 GitHub 新建一个 repo，比如 `blog`
-2. **Settings → Pages → Source**：选 `GitHub Actions`
-3. **Settings → Actions → General → Workflow permissions**：  
-   ✅ **Read and write permissions**（这是关键，否则 push `gh-pages` 会失败）
+1. **在 GitHub 新建一个 repo**
+   - 仓库名：`<你的用户名>.github.io`（**严格按这个格式**，否则不会变成用户站点）
+   - 可见性：Public
+   - 不要勾选 "Add a README" / ".gitignore" / "license"（我们要从本地 push 已有内容）
 
-### 部署
+2. **配置 Pages**
+   - 进入新建的 repo
+   - **Settings → Pages → Source**：选 **`GitHub Actions`**（不是 "Deploy from a branch"）
+
+3. **配置 Actions 权限（关键）**
+   - **Settings → Actions → General → Workflow permissions**
+   - 勾选 **✅ Read and write permissions**
+   - 点 Save
+
+### 本地初始化 + 推送
 
 ```bash
+cd d:\yeli\blog
+
+# 1) 初始化 git
 git init
 git add .
-git commit -m "init blog"
+git commit -m "init: yeli's blog"
+
+# 2) 默认分支改名
 git branch -M main
-git remote add origin https://github.com/你的用户名/blog.git
+
+# 3) 关联远程仓库
+git remote add origin https://github.com/<你的用户名>/<你的用户名>.github.io.git
+
+# 4) 第一次推送
 git push -u origin main
 ```
 
-> 记得先在 `hugo.yaml` 里把 `baseURL` 改成 `https://你的用户名.github.io/`
+> 仓库地址示例：  
+> 用户名 `yeli` → 仓库 `yeli.github.io` → 地址 `https://yeli.github.io/`
 
-之后每次 `git push` 就会自动触发部署。
+### 验证
+
+1. 打开 GitHub repo 的 **Actions** 标签 → 看到 `Deploy Hugo to GitHub Pages` workflow
+2. 等它跑完（一般 1-2 分钟）
+3. 打开 `https://<你的用户名>.github.io/` 看效果
+
+### 后续发布
+
+```bash
+git add .
+git commit -m "new post: xxx"
+git push
+```
+
+每次 push 到 `main` 都会自动触发部署。
+
+### 常见坑
+
+| 现象 | 原因 | 解决 |
+|---|---|---|
+| Actions 失败：`could not read Username` | GITHUB_TOKEN 默认只读 | Settings → Actions → General → 改 Read and write |
+| Actions 失败：`TOCSS ... not available` | Hugo 非 extended 版 | 用 `peaceiris/actions-hugo` 并设 `extended: true`（已配好） |
+| 访问 `xxx.github.io` 显示 404 | 仓库名不是 `<用户名>.github.io` | 改名（Settings → General → Rename） |
+| 访问页面 CSS 404 | baseURL 写错 | 检查 `hugo.yaml` 顶部的 `baseURL` 是不是 `https://<用户名>.github.io/` |
+| 想用自定义域名 | 见下方 | `static/CNAME` + DNS |
 
 ---
 
