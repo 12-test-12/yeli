@@ -38,19 +38,24 @@ blog/
 
 ## 本地预览
 
-### 1. 安装 Hugo extended
+### 1. 安装 Hugo extended（新版）
 
 > Stack 主题用 SCSS，**必须**装 extended 版。
+> 同时主题需要较新的 Hugo（含 `hash.FNV32a` 等函数），至少 v0.145+，直接用最新版最省事。
 
+- Windows（推荐，用 winget）：
+  ```
+  winget install Hugo.Hugo.Extended
+  ```
+- Windows：`choco install hugo-extended` 或去 [GitHub Releases](https://github.com/gohugoio/hugo/releases) 下载 `hugo_extended_*_windows-amd64.zip`
 - macOS: `brew install hugo`
-- Windows: `choco install hugo-extended` 或去 [GitHub Releases](https://github.com/gohugoio/hugo/releases) 下载
 - Linux: 参见 [官方文档](https://gohugo.io/installation/linux/)
 
 验证：
 
 ```bash
 hugo version
-# 末尾必须是 +extended
+# 末尾必须是 +extended，且版本号 >= 0.145
 ```
 
 ### 2. 安装 Stack 主题
@@ -181,6 +186,7 @@ git push
 | `actions/configure-pages ... Not Found` | Pages API 不可用（首次配置或权限问题） | 本 workflow 已**不依赖**该 action；用推 `gh-pages` 分支方案 |
 | Actions 失败：`could not read Username` | GITHUB_TOKEN 默认只读 | Settings → Actions → General → 改 **Read and write permissions** |
 | Actions 失败：`TOCSS ... not available` | Hugo 非 extended 版 | 用 `peaceiris/actions-hugo` 并设 `extended: true`（已配好） |
+| 构建失败：`function "hash" not defined` | Hugo 版本太旧，主题用了新版模板函数 | workflow 已用 `hugo-version: 'latest'`；本地需 ≥0.145 |
 | Actions 失败：`submodule ... not found` | 没拉子模块 | workflow 里 `submodules: recursive`（已配好） |
 | 访问 `12-test-12.github.io` 显示 404 | Project Pages 必须带仓库名路径 | 正确地址是 `https://12-test-12.github.io/yeli/` |
 | 访问 `/yeli/` 但 CSS 404 | `hugo.yaml` 顶部的 `baseURL` 少了 `/yeli/` 后缀 | 应为 `https://12-test-12.github.io/yeli/` |

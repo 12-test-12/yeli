@@ -27,12 +27,13 @@ jobs:
           submodules: recursive   # 关键：递归拉取 themes/hugo-theme-stack
           fetch-depth: 0
 
-      # ---- 2. 装 Hugo extended ----
-      # Stack 主题用 SCSS，必须 extended
+      # ---- 2. 装最新 Hugo extended ----
+      # Stack 主题用 SCSS，必须 extended；
+      # 最新版含 hash.FNV32a 等新函数，避免 v0.124 报 "function hash not defined"
       - name: Setup Hugo (extended)
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: '0.124.1'
+          hugo-version: 'latest'
           extended: true
 
       # ---- 3. 构建 ----
