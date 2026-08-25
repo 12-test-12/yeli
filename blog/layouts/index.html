@@ -1,7 +1,7 @@
 {{ define "main" }}
 <div class="hero">
   {{ with .Site.Params.images }}
-  <img class="hero-avatar" src="{{ index . 0 }}" alt="avatar" />
+  <img class="hero-avatar" src="{{ index . 0 | relURL }}" alt="avatar" />
   {{ end }}
 
   <h1 class="hero-name">{{ .Site.Params.author | default "YeLi" }}</h1>
@@ -15,12 +15,12 @@
   </p>
 
   <nav class="hero-links">
-    <a href="/posts/">/posts</a>
-    <a href="/categories/tech/">/tech</a>
-    <a href="/categories/devlog/">/devlog</a>
-    <a href="/categories/project/">/project</a>
-    <a href="/categories/essay/">/essay</a>
-    <a href="/about/">/about</a>
+    <a href="{{ "/posts/" | relURL }}">/posts</a>
+    <a href="{{ "/categories/tech/" | relURL }}">/tech</a>
+    <a href="{{ "/categories/devlog/" | relURL }}">/devlog</a>
+    <a href="{{ "/categories/project/" | relURL }}">/project</a>
+    <a href="{{ "/categories/essay/" | relURL }}">/essay</a>
+    <a href="{{ "/about/" | relURL }}">/about</a>
   </nav>
 </div>
 
@@ -36,7 +36,7 @@
   {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
     <article>
       <h3 class="article-title">
-        <a href="{{ printf "/categories/%s/" $name | urlize }}">{{ $name | title }} · {{ .Count }} 篇</a>
+        <a href="{{ printf "/categories/%s/" ($name | urlize) | relURL }}">{{ $name | title }} · {{ .Count }} 篇</a>
       </h3>
       <p class="article-subtitle">
         {{ if eq $name "tech" }}技术学习笔记 — 编程语言、框架、工具链。{{ end }}

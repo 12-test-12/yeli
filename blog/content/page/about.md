@@ -35,15 +35,15 @@ $ cat /etc/profile
 
 ## 联系方式
 
-- 🐙 GitHub: [@YeLi](https://github.com/你的用户名)
-- 📧 Email: <你的邮箱@example.com>
+- 🐙 GitHub: [@12-test-12](https://github.com/12-test-12)
+- 📧 Email: <you@example.com>
 
 ## 订阅更新
 
 ```bash
 # 方式 1：Watch 仓库 → Custom → Releases
 # 方式 2：RSS
-$ curl https://你的用户名.github.io/index.xml
+$ curl https://12-test-12.github.io/yeli/index.xml
 ```
 
 > 这是我作为个人 IP 的第一个"据点"。

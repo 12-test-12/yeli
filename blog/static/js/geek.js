@@ -52,14 +52,15 @@
       if (search) search.focus();
     }
 
-    // "g h" 回到首页, "g p" 笔记列表
+    // "g h" 回到首页, "g p" 笔记列表, "g a" 关于
     if (e.key === "g") {
       window.__gPressed = Date.now();
     }
     if (window.__gPressed && Date.now() - window.__gPressed < 1000) {
-      if (e.key === "h") window.location.href = "/";
-      if (e.key === "p") window.location.href = "/posts/";
-      if (e.key === "a") window.location.href = "/about/";
+      var P = window.SITE_PATHS || { home: "/", posts: "/posts/", about: "/about/" };
+      if (e.key === "h") window.location.href = P.home;
+      if (e.key === "p") window.location.href = P.posts;
+      if (e.key === "a") window.location.href = P.about;
     }
   });
 

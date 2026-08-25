@@ -2,7 +2,7 @@ name: Deploy Hugo to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [master, main]
   workflow_dispatch:
 
 # 允许一个并发部署，排队期间取消旧的
@@ -10,11 +10,15 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
-# 默认 GITHUB_TOKEN 已足够；保持只读，开启部署任务级别写权限
 permissions:
   contents: read
   pages: write
   id-token: write
+
+# Hugo 站点在 blog/ 子目录里
+defaults:
+  run:
+    working-directory: blog
 
 jobs:
   build:
@@ -36,23 +40,13 @@ jobs:
           hugo-version: '0.124.1'
           extended: true
 
-      - name: Cache Hugo modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            resources/_gen
-            .hugo_build.lock
-          key: ${{ runner.os }}-hugomodules-${{ hashFiles('config.yaml', 'hugo.yaml', 'go.mod') }}
-          restore-keys: |
-            ${{ runner.os }}-hugomodules-
-
       - name: Build
         run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          path: blog/public
 
   deploy:
     needs: build

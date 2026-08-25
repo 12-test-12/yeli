@@ -1,0 +1,10 @@
+<link rel="stylesheet" href="{{ "/css/geek.css" | relURL }}">
+<script>
+  // 注入站点基础路径，供 geek.js 的快捷键跳转使用（自动适配项目主页 /yeli/ 子路径）
+  window.SITE_PATHS = {
+    home: "{{ "/" | relURL }}",
+    posts: "{{ "/posts/" | relURL }}",
+    about: "{{ "/about/" | relURL }}"
+  };
+</script>
+<script src="{{ "/js/geek.js" | relURL }}" defer></script>
