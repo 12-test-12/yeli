@@ -77,6 +77,13 @@ a:hover{color:var(--text)}
 .nav-children{overflow:hidden;transition:max-height .3s ease;max-height:2000px}
 .nav-children.collapsed{max-height:0!important}
 .nav-children .nav-item{padding-left:40px;font-size:13.5px}
+.nav-subcategory{display:flex;align-items:center;padding:6px 20px 6px 36px;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;user-select:none;transition:color .15s}
+.nav-subcategory:hover{color:var(--text)}
+.nav-subcategory .chevron{margin-right:5px;transition:transform .2s;display:inline-block;font-size:9px}
+.nav-subcategory.collapsed .chevron{transform:rotate(-90deg)}
+.nav-sub-children{overflow:hidden;transition:max-height .3s ease;max-height:1000px}
+.nav-sub-children.collapsed{max-height:0!important}
+.nav-sub-children .nav-item{padding-left:56px;font-size:13px}
 
 .sidebar-footer{padding:16px 20px 20px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center;gap:8px}
 .sidebar-footer a{color:var(--text-muted);display:inline-flex;align-items:center;gap:4px}
@@ -1534,8 +1541,10 @@ var navData = [
   {type:'category', title:'网络安全', items:[
     {id:'security-foundation', title:'网络安全基石'},
     {id:'security-bounty-hunter', title:'赏金猎人入门指南'},
-    {id:'security-idor-bola-bfla', title:'IDOR、BOLA 和 BFLA'},
-    {id:'security-ato', title:'账户接管 ATO'},
+    {type:'subcategory', title:'漏洞', items:[
+      {id:'security-idor-bola-bfla', title:'IDOR、BOLA 和 BFLA'},
+      {id:'security-ato', title:'账户接管 ATO'},
+    ]},
   ]},
   {type:'category', title:'随笔', items:[
     {id:'essay-why-writing', title:'关于「写下来」'},
@@ -1966,7 +1975,17 @@ function buildSidebar(){
       html += '<div class="nav-category" data-cat="'+catId+'"><span class="chevron">&#9660;</span>'+escapeHtml(entry.title)+'</div>';
       html += '<div class="nav-children" id="'+catId+'">';
       entry.items.forEach(function(item){
-        html += '<div class="nav-item" data-id="'+item.id+'" data-title="'+escapeHtml(item.title)+'">'+escapeHtml(item.title)+'</div>';
+        if(item.type === 'subcategory'){
+          var subId = catId + '-sub-' + item.title.replace(/\s+/g,'-');
+          html += '<div class="nav-subcategory" data-cat="'+subId+'"><span class="chevron">&#9660;</span>'+escapeHtml(item.title)+'</div>';
+          html += '<div class="nav-sub-children" id="'+subId+'">';
+          item.items.forEach(function(sub){
+            html += '<div class="nav-item nav-item-sub" data-id="'+sub.id+'" data-title="'+escapeHtml(sub.title)+'">'+escapeHtml(sub.title)+'</div>';
+          });
+          html += '</div>';
+        } else {
+          html += '<div class="nav-item" data-id="'+item.id+'" data-title="'+escapeHtml(item.title)+'">'+escapeHtml(item.title)+'</div>';
+        }
       });
       html += '</div>';
     }
@@ -1991,13 +2010,22 @@ function loadArticle(id){
   // Expand the category containing this item
   document.querySelectorAll('.nav-children').forEach(function(el){ el.classList.remove('collapsed'); });
   document.querySelectorAll('.nav-category').forEach(function(el){ el.classList.remove('collapsed'); });
+  document.querySelectorAll('.nav-sub-children').forEach(function(el){ el.classList.remove('collapsed'); });
+  document.querySelectorAll('.nav-subcategory').forEach(function(el){ el.classList.remove('collapsed'); });
   var activeItem = document.querySelector('.nav-item[data-id="'+id+'"]');
   if(activeItem){
     var parent = activeItem.parentElement;
-    if(parent && parent.classList.contains('nav-children')){
+    if(parent && (parent.classList.contains('nav-children') || parent.classList.contains('nav-sub-children'))){
       parent.classList.remove('collapsed');
-      var cat = document.querySelector('.nav-category[data-cat="'+parent.id+'"]');
+      var cat = document.querySelector('.nav-category[data-cat="'+parent.id+'"], .nav-subcategory[data-cat="'+parent.id+'"]');
       if(cat) cat.classList.remove('collapsed');
+      // Also expand the parent category if this is a subcategory
+      if(parent.classList.contains('nav-sub-children')){
+        var parentCat = parent.closest('.nav-children');
+        if(parentCat) parentCat.classList.remove('collapsed');
+        var parentCatBtn = document.querySelector('.nav-category[data-cat="'+parentCat.id+'"]');
+        if(parentCatBtn) parentCatBtn.classList.remove('collapsed');
+      }
     }
   }
   
@@ -2010,7 +2038,7 @@ function loadArticle(id){
     // Clear TOC for home page
     generateTOC(content);
     // Update graph highlight
-    updateGraphHighlight('home');
+    rebuildGraph('home');
     return;
   }
   
@@ -2072,11 +2100,11 @@ function loadArticle(id){
     generateTOC(content);
     
     // Update graph highlight
-    updateGraphHighlight(id);
+    rebuildGraph(id);
   } else {
     content.innerHTML = '<div class="breadcrumb">' + getBreadcrumb('home') + '</div><h1>404</h1><p>文章未找到。</p>';
     generateTOC(content);
-    updateGraphHighlight(null);
+    rebuildGraph(null);
   }
   
   // Close sidebar on mobile
@@ -2116,9 +2144,12 @@ function setupSearch(){
       items.forEach(function(el){ el.style.display=''; });
       document.querySelectorAll('.nav-children').forEach(function(el){ el.classList.remove('collapsed'); });
       document.querySelectorAll('.nav-category').forEach(function(el){ el.classList.remove('collapsed'); });
+      document.querySelectorAll('.nav-sub-children').forEach(function(el){ el.classList.remove('collapsed'); });
+      document.querySelectorAll('.nav-subcategory').forEach(function(el){ el.classList.remove('collapsed'); el.style.display=''; });
       return;
     }
     var matchedCats = {};
+    var matchedSubCats = {};
     items.forEach(function(el){
       var title = (el.getAttribute('data-title')||'').toLowerCase();
       var id = el.getAttribute('data-id')||'';
@@ -2129,6 +2160,12 @@ function setupSearch(){
         if(parent && parent.classList.contains('nav-children')){
           parent.classList.remove('collapsed');
           matchedCats[parent.id] = true;
+        } else if(parent && parent.classList.contains('nav-sub-children')){
+          parent.classList.remove('collapsed');
+          matchedSubCats[parent.id] = true;
+          // Also expand parent category
+          var pCat = parent.closest('.nav-children');
+          if(pCat){ pCat.classList.remove('collapsed'); matchedCats[pCat.id] = true; }
         }
       }
     });
@@ -2136,6 +2173,16 @@ function setupSearch(){
     document.querySelectorAll('.nav-category').forEach(function(el){
       var catId = el.getAttribute('data-cat');
       if(matchedCats[catId]){
+        el.classList.remove('collapsed');
+        el.style.display = '';
+      } else {
+        el.style.display = 'none';
+      }
+    });
+    // Show/hide subcategories
+    document.querySelectorAll('.nav-subcategory').forEach(function(el){
+      var subId = el.getAttribute('data-cat');
+      if(matchedSubCats[subId]){
         el.classList.remove('collapsed');
         el.style.display = '';
       } else {
@@ -2154,6 +2201,16 @@ function setupCategories(){
       if(children){
         children.classList.toggle('collapsed');
         cat.classList.toggle('collapsed');
+      }
+    });
+  });
+  document.querySelectorAll('.nav-subcategory').forEach(function(sub){
+    sub.addEventListener('click', function(){
+      var subId = sub.getAttribute('data-cat');
+      var children = document.getElementById(subId);
+      if(children){
+        children.classList.toggle('collapsed');
+        sub.classList.toggle('collapsed');
       }
     });
   });
@@ -2235,149 +2292,141 @@ var graphColors = {meta:'#8e8e8e',tech:'#60a5fa',security:'#f87171',essay:'#fbbf
 var graphCatNames = {meta:'导航',tech:'技术',security:'安全',essay:'随笔',project:'项目'};
 
 // ===== Small Graph (Right Sidebar) =====
-var graphNodeEls = {};
-var graphSimNodes = [];
-var graphSimLinks = [];
-var graphSimRunning = false;
 
-function initSmallGraph(){
+function rebuildGraph(currentId){
   var svg = document.getElementById('rightGraph');
   if(!svg) return;
   var NS = 'http://www.w3.org/2000/svg';
-  
-  // Container dimensions
-  var W = 240, H = 220;
-  var cx = W/2, cy = H/2;
-  
+  var W = 240, H = 220, cx = W/2, cy = H/2;
+
   // Clear
   while(svg.firstChild) svg.removeChild(svg.firstChild);
-  
-  // Groups
   var gL = document.createElementNS(NS,'g'); svg.appendChild(gL);
   var gN = document.createElementNS(NS,'g'); svg.appendChild(gN);
-  
-  // Nodes init
-  graphSimNodes = graphNodes.map(function(n){
-    return {id:n.id,label:n.label,cat:n.cat,
-      x:cx+(Math.random()-.5)*120, y:cy+(Math.random()-.5)*100,
-      vx:0,vy:0, r:n.cat==='meta'?5:4
+
+  // Filter: for home, show all; for articles, show current + direct neighbors
+  var filteredNodeIds;
+  if(currentId === 'home' || !currentId){
+    filteredNodeIds = graphNodes.map(function(n){return n.id;});
+  } else {
+    // Find direct neighbors
+    var neighbors = {};
+    neighbors[currentId] = true;
+    graphLinks.forEach(function(l){
+      if(l.s === currentId) neighbors[l.t] = true;
+      if(l.t === currentId) neighbors[l.s] = true;
+    });
+    filteredNodeIds = Object.keys(neighbors);
+  }
+
+  var filteredNodes = graphNodes.filter(function(n){return filteredNodeIds.indexOf(n.id) !== -1;});
+  var nMap = {};
+  filteredNodes.forEach(function(n){nMap[n.id] = n;});
+  var filteredLinks = graphLinks.filter(function(l){
+    return nMap[l.s] && nMap[l.t];
+  });
+
+  // Init sim nodes
+  var simNodes = filteredNodes.map(function(n){
+    return {id:n.id, label:n.label, cat:n.cat,
+      x:cx+(Math.random()-.5)*100, y:cy+(Math.random()-.5)*80,
+      vx:0, vy:0, r: n.id===currentId ? 7 : (n.cat==='meta' ? 5 : 4.5)
     };
   });
-  var nMap={}; graphSimNodes.forEach(function(n){nMap[n.id]=n;});
-  graphSimLinks = graphLinks.map(function(l){return {s:nMap[l.s],t:nMap[l.t]};}).filter(function(l){return l.s&&l.t;});
-  
-  // Link elements
-  var lEls = graphSimLinks.map(function(l){
+  var snMap = {}; simNodes.forEach(function(n){snMap[n.id]=n;});
+  var simLinks = filteredLinks.map(function(l){return {s:snMap[l.s], t:snMap[l.t]};}).filter(function(l){return l.s&&l.t;});
+
+  // Create link elements
+  var lEls = simLinks.map(function(l){
     var ln = document.createElementNS(NS,'line');
     ln.setAttribute('class','graph-link-small');
+    ln.setAttribute('stroke','#444'); ln.setAttribute('stroke-width','1');
     gL.appendChild(ln); return ln;
   });
-  
-  // Node elements
-  graphNodeEls = {};
-  graphSimNodes.forEach(function(n){
+
+  // Create node elements
+  var nEls = {};
+  simNodes.forEach(function(n){
     var g = document.createElementNS(NS,'g');
-    g.setAttribute('class','graph-node'); g.setAttribute('data-id',n.id);
+    g.setAttribute('class','graph-node');
+    g.style.cursor = 'pointer';
     var c = document.createElementNS(NS,'circle');
-    c.setAttribute('r',n.r); c.setAttribute('fill',graphColors[n.cat]||'#888');
-    c.setAttribute('stroke','rgba(255,255,255,.15)'); c.setAttribute('stroke-width','1');
+    c.setAttribute('r',n.r);
+    c.setAttribute('fill', graphColors[n.cat]||'#888');
+    if(n.id === currentId){
+      c.setAttribute('stroke','var(--accent-light)');
+      c.setAttribute('stroke-width','2.5');
+      c.setAttribute('filter','drop-shadow(0 0 4px rgba(183,148,246,.6))');
+    } else {
+      c.setAttribute('stroke','rgba(255,255,255,.15)');
+      c.setAttribute('stroke-width','1');
+    }
     g.appendChild(c);
     var t = document.createElementNS(NS,'text');
-    t.setAttribute('class','graph-node-label'); t.setAttribute('text-anchor','middle');
-    t.setAttribute('y',n.r+10); t.setAttribute('fill','#999'); t.textContent=n.label;
+    t.setAttribute('class','graph-node-label');
+    t.setAttribute('text-anchor','middle');
+    t.setAttribute('y',n.r+10);
+    t.setAttribute('fill', n.id===currentId ? '#e0e0e0' : '#888');
+    t.setAttribute('font-size','10');
+    t.textContent = n.label;
     g.appendChild(t);
     gN.appendChild(g);
-    graphNodeEls[n.id] = {group:g, circle:c, label:t};
+    nEls[n.id] = {group:g, circle:c, label:t};
     g.addEventListener('click',function(e){
-      e.stopPropagation(); window.location.hash='#/'+n.id;
+      e.stopPropagation();
+      window.location.hash = '#/' + n.id;
     });
   });
-  
+
   // Simulation
-  graphSimRunning = true;
   var frame = 0;
-  
   function tick(){
     frame++;
-    var a = Math.max(0, 1 - frame/350);
-    
+    var a = Math.max(0, 1 - frame/300);
     // Repulsion
-    for(var i=0;i<graphSimNodes.length;i++){
-      for(var j=i+1;j<graphSimNodes.length;j++){
-        var A=graphSimNodes[i],B=graphSimNodes[j];
+    for(var i=0;i<simNodes.length;i++){
+      for(var j=i+1;j<simNodes.length;j++){
+        var A=simNodes[i],B=simNodes[j];
         var dx=A.x-B.x, dy=A.y-B.y, d=Math.sqrt(dx*dx+dy*dy)||1;
-        var f=800/(d*d)*a;
+        var f=600/(d*d)*a;
         var fx=dx/d*f, fy=dy/d*f;
         A.vx+=fx; A.vy+=fy; B.vx-=fx; B.vy-=fy;
       }
     }
-    
-    // Attraction (spring)
-    graphSimLinks.forEach(function(l){
+    // Attraction
+    simLinks.forEach(function(l){
       var dx=l.t.x-l.s.x, dy=l.t.y-l.s.y, d=Math.sqrt(dx*dx+dy*dy)||1;
-      var f=(d-45)*0.03*a;
+      var f=(d-42)*0.04*a;
       var fx=dx/d*f, fy=dy/d*f;
       l.s.vx+=fx; l.s.vy+=fy; l.t.vx-=fx; l.t.vy-=fy;
     });
-    
-    // Centering
-    graphSimNodes.forEach(function(n){
-      n.vx+=(cx-n.x)*0.015*a; n.vy+=(cy-n.y)*0.015*a;
+    // Centering (stronger for current node)
+    simNodes.forEach(function(n){
+      var w = n.id===currentId ? 0.05 : 0.015;
+      n.vx += (cx-n.x)*w*a;
+      n.vy += (cy-n.y)*w*a;
     });
-    
-    // Update positions
-    graphSimNodes.forEach(function(n){
+    // Update
+    simNodes.forEach(function(n){
       n.vx*=0.82; n.vy*=0.82; n.x+=n.vx; n.y+=n.vy;
-      n.x=Math.max(20,Math.min(W-20,n.x)); n.y=Math.max(20,Math.min(H-20,n.y));
+      n.x=Math.max(18,Math.min(W-18,n.x)); n.y=Math.max(18,Math.min(H-18,n.y));
     });
-    
     // Render
-    graphSimNodes.forEach(function(n){
-      var el = graphNodeEls[n.id];
+    simNodes.forEach(function(n){
+      var el = nEls[n.id];
       if(el) el.group.setAttribute('transform','translate('+n.x+','+n.y+')');
     });
     lEls.forEach(function(el,i){
-      el.setAttribute('x1',graphSimLinks[i].s.x); el.setAttribute('y1',graphSimLinks[i].s.y);
-      el.setAttribute('x2',graphSimLinks[i].t.x); el.setAttribute('y2',graphSimLinks[i].t.y);
+      el.setAttribute('x1',simLinks[i].s.x);
+      el.setAttribute('y1',simLinks[i].s.y);
+      el.setAttribute('x2',simLinks[i].t.x);
+      el.setAttribute('y2',simLinks[i].t.y);
     });
-    
-    if(a>0.01 && graphSimRunning){
+    if(a > 0.01){
       requestAnimationFrame(tick);
     }
   }
   tick();
-}
-
-function updateGraphHighlight(id){
-  // Reset all nodes
-  graphSimNodes.forEach(function(n){
-    var el = graphNodeEls[n.id];
-    if(!el) return;
-    if(n.id === id){
-      // Highlight current node
-      el.circle.setAttribute('r', n.r + 3);
-      el.circle.setAttribute('stroke', 'var(--accent-light)');
-      el.circle.setAttribute('stroke-width', '2');
-      el.label.setAttribute('fill', '#e0e0e0');
-      el.group.classList.add('graph-node-current');
-    } else {
-      el.circle.setAttribute('r', n.r);
-      el.circle.setAttribute('stroke', 'rgba(255,255,255,.15)');
-      el.circle.setAttribute('stroke-width', '1');
-      el.label.setAttribute('fill', '#999');
-      el.group.classList.remove('graph-node-current');
-    }
-  });
-  
-  // Briefly restart simulation to reposition
-  if(graphSimRunning){
-    // Nudge the current node towards center
-    var currentNode = graphSimNodes.find(function(n){return n.id===id;});
-    if(currentNode){
-      currentNode.vx += (120 - currentNode.x) * 0.01;
-      currentNode.vy += (110 - currentNode.y) * 0.01;
-    }
-  }
 }
 
 // ===== Init =====
@@ -2388,7 +2437,7 @@ function init(){
   setupSearch();
   setupMobileMenu();
   setupTOCToggle();
-  initSmallGraph();
+  rebuildGraph('home');
   window.addEventListener('hashchange', handleRoute);
   handleRoute();
 }
