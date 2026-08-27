@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "blog/content/posts/网安/漏洞/账户接管（ATO）：接管任何账户.md",
+                "file": "blog/content/posts/spring-jpa-field-mapping.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "账户接管（ATO）：接管任何账户"
+              "title": "spring-jpa-field-mapping"
             }
           }
         ],
@@ -190,7 +190,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "blog/content/posts/网安/漏洞/账户接管（ATO）：接管任何账户.md",
+                "file": "blog/content/posts/spring-jpa-field-mapping.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -231,18 +231,22 @@
   },
   "active": "63d4e54c1e5d8b48",
   "lastOpenFiles": [
+    "blog/content/posts/project-yeli-blog.md",
+    "blog/content/posts/kmp-structure.md",
+    "blog/content/posts/spring-jpa-field-mapping.md",
+    "blog/content/posts/github-actions-hugo-deploy.md",
+    "blog/content/posts/essay-why-writing.md",
+    "blog/content/page/search.md",
+    "blog/content/page/about.md",
+    "blog/content/page/archives.md",
+    "blog/content/page/links.md",
+    "blog/content/posts/网安/漏洞/IDOR、BOLA 和 BFLA 的基础到高级应用.md",
+    "blog/content/posts/网安/漏洞/账户接管（ATO）：接管任何账户.md",
+    "blog/content/posts/网安/赏金猎人.md",
+    "blog/content/posts/网安/基石.md",
     "docs/index.html",
     "docs",
     "未完成列表.md",
-    "blog/content/posts/essay-why-writing.md",
-    "blog/content/posts/spring-jpa-field-mapping.md",
-    "blog/content/posts/project-yeli-blog.md",
-    "blog/content/posts/kmp-structure.md",
-    "blog/content/posts/github-actions-hugo-deploy.md",
-    "blog/content/posts/网安/漏洞/账户接管（ATO）：接管任何账户.md",
-    "blog/content/posts/网安/漏洞/IDOR、BOLA 和 BFLA 的基础到高级应用.md",
-    "blog/content/posts/网安/赏金猎人.md",
-    "blog/content/posts/网安/基石.md",
     "().md",
     "Pasted image 20260826175724.png",
     "Pasted image 20260826175704.png",
@@ -251,10 +255,6 @@
     "Pasted image 20260826100027.png",
     "欢迎.md",
     "blog/content/posts/网安",
-    "blog/content/page/search.md",
-    "blog/content/page/links.md",
-    "blog/content/page/archives.md",
-    "blog/content/page/about.md",
     "未命名.base",
     "blog/themes/hugo-theme-stack/README.md",
     "blog/themes/hugo-theme-stack/LICENSE",
@@ -264,7 +264,6 @@
     "blog/layouts/partials/head/custom.html.tmp.21776.7c8ca23d3b4b",
     "blog/layouts/partials/head/custom.html",
     "blog/layouts/partials/head/custom.html.tmp.21776.59cd79c3bdff",
-    "blog/layouts/partials/head",
     "blog/static/img/avatar.svg",
     "blog/archetypes/essay.md",
     "blog/archetypes/posts.md",

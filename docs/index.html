@@ -8,33 +8,42 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#1e1e1e;--sidebar-bg:#1a1a1a;--surface:#252525;--text:#dcddde;
-  --text-muted:#8e8e8e;--border:#333;--accent:#7c3aed;--accent-light:#a78bfa;
-  --code-bg:#2a2a2a;--mono:"JetBrains Mono","Fira Code",Consolas,monospace;
+  --bg:#1a1a1a;--sidebar-bg:#1e1e1e;--surface:#252525;--text:#e0e0e0;
+  --text-muted:#8a8a8a;--border:#2a2a2a;--accent:#7c3aed;--accent-light:#b794f6;
+  --code-bg:#1e1e1e;--mono:"JetBrains Mono","Fira Code",Consolas,monospace;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);font-size:16px;line-height:1.7;background:var(--bg);color:var(--text);overflow-x:hidden}
+body{font-family:var(--sans);font-size:15px;line-height:1.7;background:var(--bg);color:var(--text);overflow-x:hidden}
 a{color:var(--accent-light);text-decoration:none;transition:color .2s}
 a:hover{color:var(--text)}
 
-/* ===== Layout ===== */
-.app{display:flex;min-height:100vh}
+/* ===== Layout (Three Columns) ===== */
+.app{min-height:100vh}
 .sidebar{
-  width:280px;flex-shrink:0;background:var(--sidebar-bg);
+  width:240px;background:var(--sidebar-bg);
   border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;
   display:flex;flex-direction:column;z-index:50;transition:transform .3s ease;
 }
-.main{margin-left:280px;flex:1;display:flex;flex-direction:column;min-height:100vh}
-.content{max-width:780px;margin:0 auto;padding:48px 32px;width:100%;flex:1}
+.main{margin-left:240px;margin-right:260px;display:flex;flex-direction:column;min-height:100vh}
+.content{max-width:720px;margin:0 auto;padding:32px 32px;width:100%;flex:1}
+.right-sidebar{
+  width:260px;background:var(--sidebar-bg);
+  border-left:1px solid var(--border);position:fixed;top:0;right:0;bottom:0;
+  display:flex;flex-direction:column;z-index:40;overflow-y:auto;
+  scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+}
+.right-sidebar::-webkit-scrollbar{width:6px}
+.right-sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.right-sidebar::-webkit-scrollbar-track{background:transparent}
 
-/* ===== Sidebar ===== */
+/* ===== Left Sidebar ===== */
 .sidebar-header{padding:20px 20px 16px;border-bottom:1px solid var(--border)}
 .logo{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.5px;margin-bottom:14px}
 .logo span{color:var(--accent-light)}
 .search-wrap{position:relative}
 .search-box{
-  width:100%;padding:8px 12px 8px 34px;background:var(--code-bg);border:1px solid var(--border);
+  width:100%;padding:8px 12px 8px 34px;background:var(--surface);border:1px solid #3a3a3a;
   border-radius:6px;color:var(--text);font-size:13px;font-family:var(--sans);outline:none;
   transition:border-color .2s,box-shadow .2s;
 }
@@ -53,7 +62,7 @@ a:hover{color:var(--text)}
   border-left:3px solid transparent;
 }
 .nav-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
-.nav-item.active{color:var(--text);background:rgba(124,58,237,.12);border-left-color:var(--accent)}
+.nav-item.active{color:var(--text);background:rgba(124,58,237,.08);border-left-color:var(--accent-light)}
 .nav-item .nav-icon{margin-right:8px;font-size:14px;opacity:.7;width:16px;text-align:center;flex-shrink:0}
 .nav-item.active .nav-icon{opacity:1}
 
@@ -69,18 +78,53 @@ a:hover{color:var(--text)}
 .nav-children.collapsed{max-height:0!important}
 .nav-children .nav-item{padding-left:40px;font-size:13.5px}
 
-.sidebar-footer{padding:12px 20px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted)}
-.sidebar-footer a{color:var(--text-muted)}
+.sidebar-footer{padding:16px 20px 20px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sidebar-footer a{color:var(--text-muted);display:inline-flex;align-items:center;gap:4px}
 .sidebar-footer a:hover{color:var(--accent-light)}
 
-/* ===== Mobile ===== */
+/* ===== Right Sidebar ===== */
+.right-sidebar-header{
+  padding:14px 16px 10px;font-size:12px;font-weight:600;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;
+}
+.right-sidebar-header .chevron{transition:transform .2s;font-size:10px}
+.right-sidebar-header.collapsed .chevron{transform:rotate(-90deg)}
+
+.graph-section{border-bottom:1px solid var(--border)}
+.graph-section .right-sidebar-header{cursor:default}
+.graph-svg-small{width:100%;height:220px;display:block}
+.graph-svg-small .graph-node{cursor:pointer}
+.graph-svg-small .graph-node:hover{opacity:.85}
+.graph-svg-small .graph-node-label{font-size:9px;pointer-events:none;user-select:none;font-family:var(--sans);text-shadow:0 1px 3px #000}
+
+.toc-section{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.toc-list{padding:8px 0;overflow-y:auto;flex:1;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.toc-list::-webkit-scrollbar{width:5px}
+.toc-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.toc-list::-webkit-scrollbar-track{background:transparent}
+.toc-list.collapsed{display:none}
+.toc-item{
+  display:block;padding:5px 16px 5px 24px;font-size:13px;color:var(--text-muted);
+  cursor:pointer;transition:all .15s;line-height:1.4;border-left:2px solid transparent;
+}
+.toc-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.toc-item.level-3{padding-left:36px;font-size:12px}
+.toc-empty{padding:12px 16px;font-size:13px;color:var(--text-muted);font-style:italic}
+
+/* ===== Mobile (left sidebar) ===== */
 .menu-toggle{
   display:none;position:fixed;top:16px;left:16px;z-index:100;
   width:40px;height:40px;background:var(--surface);border:1px solid var(--border);
   border-radius:8px;color:var(--text);cursor:pointer;align-items:center;justify-content:center;
   font-size:20px;
 }
-.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:45}
+
+@media(max-width:1200px){
+  .right-sidebar{display:none}
+  .main{margin-right:0}
+}
 @media(max-width:768px){
   .menu-toggle{display:flex}
   .sidebar{transform:translateX(-100%)}
@@ -89,6 +133,35 @@ a:hover{color:var(--text)}
   .main{margin-left:0}
   .content{padding:64px 20px 32px}
 }
+
+/* ===== Breadcrumb ===== */
+.breadcrumb{
+  font-size:13px;color:var(--text-muted);margin-bottom:16px;
+  display:flex;align-items:center;flex-wrap:wrap;gap:2px;
+}
+.breadcrumb a{color:var(--text-muted)}
+.breadcrumb a:hover{color:var(--accent-light)}
+.breadcrumb .sep{margin:0 6px;color:var(--border)}
+.breadcrumb .current{color:var(--text)}
+
+/* ===== Article Meta ===== */
+.article-meta{
+  font-size:13px;color:var(--text-muted);margin-bottom:12px;
+  display:flex;align-items:center;gap:12px;
+}
+.article-meta .meta-sep{color:var(--border)}
+
+/* ===== Article Tags ===== */
+.article-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px}
+.tag-badge{
+  display:inline-block;padding:3px 10px;background:rgba(124,58,237,.1);
+  border:1px solid rgba(124,58,237,.2);border-radius:12px;
+  font-size:12px;color:var(--accent-light);
+}
+
+/* ===== Article Title ===== */
+.article-title{font-size:1.9em;font-weight:700;margin:0 0 8px;color:var(--text);line-height:1.3}
+.article-divider{border:none;border-top:1px solid var(--border);margin:0 0 24px}
 
 /* ===== Content Typography ===== */
 .content h1{font-size:2em;font-weight:700;margin:0 0 1.2em;color:var(--text);line-height:1.3}
@@ -103,8 +176,8 @@ a:hover{color:var(--text)}
 .content em{font-style:italic}
 .content hr{border:none;border-top:1px solid var(--border);margin:2em 0}
 .content blockquote{
-  border-left:3px solid var(--accent);background:rgba(124,58,237,.06);
-  padding:12px 16px;margin:0 0 1em;border-radius:0 6px 6px 0;color:var(--text-muted);
+  border-left:3px solid var(--accent);background:rgba(124,58,237,.04);
+  padding:14px 18px;margin:0 0 1em;border-radius:0 6px 6px 0;color:var(--text);
 }
 .content blockquote p:last-child{margin-bottom:0}
 .content mark{background:rgba(167,139,250,.25);color:var(--text);padding:1px 4px;border-radius:3px}
@@ -184,14 +257,20 @@ a:hover{color:var(--text)}
 /* ===== Home page ===== */
 .home-hero{text-align:center;padding:40px 0 20px}
 .home-hero h1{font-size:3em;letter-spacing:-1px}
-.home-tagline{font-size:1.3em;color:var(--accent-light);font-family:var(--mono);margin-bottom:1.5em}
-.home-desc{max-width:500px;margin:0 auto 2em;color:var(--text-muted);line-height:1.8}
+.home-tagline{font-size:1.35em;color:var(--accent-light);font-family:var(--mono);font-weight:500;margin-bottom:1.8em}
+.home-desc{max-width:460px;margin:0 auto 2em;color:var(--text-muted);line-height:1.9}
 .home-nav{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:2em 0}
 .home-nav a{
   display:inline-block;padding:10px 24px;background:var(--surface);border:1px solid var(--border);
-  border-radius:8px;color:var(--text);font-size:14px;transition:all .2s;
+  border-radius:8px;color:var(--text);font-size:14px;transition:all .2s;outline:none;
 }
-.home-nav a:hover{border-color:var(--accent);background:rgba(124,58,237,.1);color:var(--accent-light)}
+.home-nav a:hover,.home-nav a:focus{border-color:var(--accent);background:rgba(124,58,237,.1);color:var(--accent-light)}
+.home-nav a:focus-visible{box-shadow:0 0 0 2px rgba(124,58,237,.3)}
+
+/* ===== Graph (small, embedded in right sidebar) ===== */
+.graph-link-small{stroke:#444;stroke-width:1;stroke-opacity:.3;transition:stroke-opacity .2s}
+.graph-link-small:hover{stroke-opacity:.6}
+.graph-node-current{filter:drop-shadow(0 0 6px var(--accent-light))}
 
 /* Loading */
 .loading{display:flex;align-items:center;justify-content:center;height:200px;color:var(--text-muted)}
@@ -211,18 +290,30 @@ a:hover{color:var(--text)}
     </div>
     <nav class="sidebar-nav" id="sidebarNav"></nav>
     <div class="sidebar-footer">
-      &copy; 2026 YeLi &middot; <a href="https://github.com/12-test-12" target="_blank" rel="noopener">GitHub</a>
+      <span>&copy; 2026 YeLi</span>
+      <a href="https://github.com/12-test-12" target="_blank" rel="noopener">GitHub</a>
     </div>
   </aside>
   <div class="main">
     <main class="content" id="content"><div class="loading">加载中...</div></main>
     <footer class="footer">
-      <p>&copy; 2026 YeLi &middot; <a href="https://github.com/12-test-12" target="_blank" rel="noopener">GitHub</a></p>
+      <p>&copy; 2026 YeLi &nbsp;·&nbsp; <a href="https://github.com/12-test-12" target="_blank" rel="noopener">GitHub</a></p>
     </footer>
   </div>
+  <aside class="right-sidebar" id="rightSidebar">
+    <div class="graph-section">
+      <div class="right-sidebar-header">关系图谱</div>
+      <svg id="rightGraph" class="graph-svg-small" viewBox="0 0 240 220"></svg>
+    </div>
+    <div class="toc-section">
+      <div class="right-sidebar-header" id="tocToggle">本页内容 <span class="chevron">&#9660;</span></div>
+      <div class="toc-list" id="tocList"></div>
+    </div>
+  </aside>
 </div>
 
 <!-- ==================== MARKDOWN CONTENT ==================== -->
+
 
 <script type="text/markdown" id="article-home">
 # YeLi
@@ -555,7 +646,7 @@ Settings → Actions → General → Workflow permissions →
 </script>
 
 <script type="text/markdown" id="article-security-bounty-hunter">
-#博客 
+#博客
 [[基石]]
 
 # 神秘面纱
@@ -727,18 +818,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9...
 
 session和cookie本质上确实是两个东西，但cookie同时也是session id的载体，cookie保存session id。
 
-cookie数据存放在用户的浏览器上，session数据放在网站的服务器上。  
-session保存在服务器端与浏览器设置无关，cookie在客户端并受浏览器设置限制。  
-cookie是在你的电脑浏览器上保存的,session是在网站服务器上的. 也就是说你换一个电脑你的cookie就不起作用了, 而session只要你的浏览器不关就还能访问到.  
+cookie数据存放在用户的浏览器上，session数据放在网站的服务器上。
+session保存在服务器端与浏览器设置无关，cookie在客户端并受浏览器设置限制。
+cookie是在你的电脑浏览器上保存的,session是在网站服务器上的. 也就是说你换一个电脑你的cookie就不起作用了, 而session只要你的浏览器不关就还能访问到.
 通常的都是两者结合着用的. cookie的话你自己就可以通过对浏览器的设置禁用掉.这样就不起作用了
 
-cookie不是很安全，别人可以分析存放在本地的cookie并进行cookie欺骗，考虑到安全应当使用session。  
-session是服务器端缓存，cookie是客户端缓存。  
+cookie不是很安全，别人可以分析存放在本地的cookie并进行cookie欺骗，考虑到安全应当使用session。
+session是服务器端缓存，cookie是客户端缓存。
 cookie机制采用的是在客户端保持状态的方案，而session机制采用的是在服务器端保持状态的方案
 
-session会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能，考虑到减轻服务器性能方面，应当使用cookie。  
-session是服务器保持客户端状态信息的方案，一般是保存在服务器中的一块内存中，session超时时间在服务器端进行设置。  
-cookie是客户端保持用户信息的方案，一般是文件形式保存，cookie清空时间是在客户端浏览器设置。  
+session会在一定时间内保存在服务器上。当访问增多，会比较占用你服务器的性能，考虑到减轻服务器性能方面，应当使用cookie。
+session是服务器保持客户端状态信息的方案，一般是保存在服务器中的一块内存中，session超时时间在服务器端进行设置。
+cookie是客户端保持用户信息的方案，一般是文件形式保存，cookie清空时间是在客户端浏览器设置。
 从开发角度说，session信息可以通过技术方案写到客户端保存，cookie中的用户信息，也可以在用户访问该网站时，通过技术手段自动更新用户的session信息。
 
 单个cookie保存的数据不能超过4K，很多浏览器都限制一个站点最多保存20个cookie。
@@ -759,14 +850,14 @@ Content-Type: application/json
 ```http
 # 服务器返回一个cookie给你
 HTTP/2 200 OK
-Set-Cookie: session=abc123; HttpOnly; Secure; SameSite=Lax   
+Set-Cookie: session=abc123; HttpOnly; Secure; SameSite=Lax
 ```
 
 ```http
 # 2) 在后续的请求中，浏览器会自动重新发送 cookie。
 GET /api/perfil HTTP/2
 Host: app.exemplo.com
-Cookie: session=abc123   
+Cookie: session=abc123
 ```
 
 你需要识别的三种 Cookie 标志（它们将在后面的多篇文章中出现）：
@@ -887,61 +978,61 @@ OWASP Top 10 是 Web 应用程序中最关键风险类别的列表，由 Open Wo
 在接下来的文章中，你会经常遇到这些词。先收藏好：忘了就回到这一节来看。（HTTP、cookie/session、header的术语前面已经解释过了。）
 
 - **API** 是通过代码（而不是界面）与服务器通信的"入口"。通常返回 JSON。它的每个 URL/操作都是一个 **endpoint**（例如：`GET /api/v1/usuarios/1001`）。
-    
+
 - **Endpoint**：应用/API 中接受请求的一个具体路径（例如：`/login`、`/api/faturas`）。
-    
+
 - **Payload** 是你发送的"内容"。可以是一个请求的正文，或者在攻击中，是你注入的恶意字符串（例如：一个 XSS payload）。
-    
+
 - **Token**：登录后用来证明你身份的一种凭据，每次请求时都会发送（通常放在 `Authorization: Bearer ...` 头里）。它取代了每次都要发送密码的做法。
-    
+
 - **JWT（JSON Web Token）** 是最常见的 token 类型。它由三部分组成，用点号分隔（header.payload.signature），每部分都是 Base64URL 编码。payload 携带数据（例如：userId、role），signature 保证没有人篡改过 token。⚠️ Base64 不是加密：你可以在 [jwt.io](https://jwt.io/) 上直接读取 JWT 的内容。深入利用见"账户接管（Account Takeover）"一文。
-    
+
 - **Hash × 加密 × 编码**（不要混淆，经常考）：
-    
+
     - **编码**（例如：Base64、URL 编码）：只是改变格式，任何人都可以还原。不提供任何保护。
-        
+
     - **Hash**（例如：SHA-256、bcrypt）：单向过程，无法"反哈希"（但如果哈希较弱，可以通过暴力破解来破解）。
-        
+
     - **加密**（例如：AES）：只有拥有密钥才能还原。这才是真正保护机密性的手段。
-        
+
 - **TLS / HTTPS**：用于加密浏览器与服务器之间连接的层（也就是那个小锁标志）。证书用来证明网站身份（这也是为什么在第 2b 步中 Burp 要安装它自己的证书）。
-    
+
 - **DNS / 子域名 / CNAME**：DNS 把名称（[alvo.com](https://alvo.com/)）翻译成 IP。子域名是 [loja.alvo.com](https://loja.alvo.com/)。CNAME 是一个"别名"，把一个名称指向另一个名称，是"子域名接管（Subdomain Takeover）"一文的核心。
-    
+
 - **同源策略（Same-Origin Policy，SOP）** 是浏览器的规则：默认情况下，一个网站不能读取另一个源（域名+端口+协议）的数据。这是浏览器安全的基础。
-    
+
 - **CORS** 是以受控方式放宽同源策略的机制（允许特定来源）。如果配置错误，就会变成漏洞。
-    
+
 - **CSP（Content Security Policy）**：一个响应头，告诉浏览器脚本/资源可以从哪些地方加载运行。它是防御 XSS 的主要手段。
-    
+
 - **WAF（Web Application Firewall）** 是一个"门卫"，在请求到达应用之前过滤可疑请求。它可以被绕过（在本系列中你会看到多种绕过方式）。
-    
+
 - **PoC（Proof of Concept）**：证明漏洞存在的最小证据（用于证明的请求/截图），会写进报告里。
-    
+
 - **PII**：个人数据（姓名、CPF、邮箱、地址）。泄露 PII = 高影响。
-    
+
 - **CVE / CWE / CVSS**：CVE 是公开已知漏洞的"身份证号"（CVE-AAAA-NNNN）；CWE 是漏洞类别；CVSS 是严重性评分。详见"严重性与影响（Severidade e Impacto）"一文。
-    
+
 - **Recon / Fuzzing**：recon 是对目标进行测绘（了解存在什么）；fuzzing 是大量发送尝试来发现路径/参数。详见"Recon 与发现（Recon & Discovery）"一文。
-    
+
 - **API / GraphQL / Introspection**：除了 REST，很多应用还使用 GraphQL（一个单一的 `/graphql` URL，接受查询）。Introspection 是 GraphQL 的一个功能，可以列出整个 schema（类型、字段、操作）。当它被启用时，对攻击者来说就是金矿。详见"API 安全（Segurança de APIs）"一文。
-    
+
 - **Mass Assignment（批量赋值）**：当你在 JSON 请求中发送额外字段（例如：`"role":"admin"`、`"isAdmin":true`），而应用盲目接受并修改了本不该修改的内容。更多内容见"API 安全"一文。
-    
+
 - **SSL Pinning**：移动应用只信任某个特定证书，这会卡住 Burp（Burp 的证书会被拒绝）。可以通过 Frida/objection 做 bypass 来解决。见"移动端漏洞赏金（Bug Bounty em Mobile）"。
-    
+
 - **Deeplink** 是一种特殊链接（例如：`app://...`），可以打开移动应用的某个特定页面。校验不严的 deeplink 会成为攻击向量。见"移动端（Mobile）"。
-    
+
 - **Cloud metadata**：云环境中的一个内部端点（例如：`http://169.254.169.254`），会返回机器的凭据/配置。它是 SSRF 的经典目标 → 见"SSRF"。
-    
+
 - **Primitiva / Chaining**：primitiva 是一个漏洞给你的"能力"（读文件、重定向、发起服务端请求……）。Chaining 是把多个小的原语/漏洞串联起来，直到形成严重影响。"漏洞串联（Chaining de Vulnerabilidades）"一文专门讲这个。
-    
+
 - **XXE / 外部实体**：在 XML 中，一个"外部实体"（`<!ENTITY x SYSTEM "file:///...">`）会让解析器去获取一个文件/URL。滥用这一点来读取文件或进行 SSRF，就是 XXE。
-    
+
 - **序列化 / Gadget chain**：序列化是把一个对象变成字节/字符串（用于保存或传输）；对不可信数据进行反序列化，可能通过串联应用中已有的类（gadget chain）变成 RCE。见"不安全反序列化（Insecure Deserialization）"。
-    
+
 - **Prototype Pollution**：通过 `__proto__` 污染 JavaScript 的 `Object.prototype`，从而影响应用中的所有对象。见"原型污染（Prototype Pollution）"。
-    
+
 - **S3 / IAM / IMDS**：AWS 云相关术语——S3（bucket 存储）、IAM（身份与权限）、IMDS（metadata 端点 169.254.169.254，可能返回凭据）。见"云与 AWS（Cloud & AWS）"。
 
 
@@ -993,13 +1084,14 @@ OWASP Top 10 是 Web 应用程序中最关键风险类别的列表，由 Open Wo
 [http cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies)
 </script>
 
+
 <script type="text/markdown" id="article-security-idor-bola-bfla">
 可能大家看到标题有点懵逼，其实用通俗的话来讲就是：**你看到了你不该看到的东西**
 
 - **IDOR**：不安全直接对象引用（传统 Web 常见叫法）
-    
+
 - **BOLA**：对象级授权失效（API 安全领域的叫法，本质几乎等于 IDOR）
-    
+
 - **BFLA**：功能级授权失效（另一个维度：不是"看别人的数据"，而是"用别人的功能"）
 
 # IDOR和BOLA
@@ -1037,7 +1129,7 @@ GET /api/faturas/charge-details?chargeId=10051001 <- 后
 总结一下最容易混淆的区别：
 
 - IDOR/BOLA = 对某个对象/数据的不当访问（"我能看到别人的账单"）。
-    
+
 - BFLA = 对某个功能的不当访问（"我以普通用户身份执行管理员操作"）。
 
 ## 重要性
@@ -1075,15 +1167,15 @@ return json($pedido);   // 他没有验证你是不是用户b
 # 可能出现的情况
 
 - **基于连续数字 ID 的 IDOR**：经典情况，`?id=1001` → `?id=1002`。
-    
+
 - **业务参数中的 IDOR**：标识符不是明显的 id，而是类似 `?cpf=`、`?NroConta=`、`?chargeId=`、`?id_subgrupo=`。
-    
+
 - **请求体（POST/PUT）或 Header 中的 IDOR**：标识符放在 JSON 或自定义 Header 里，而不是 URL 中。
-    
+
 - **通过账号间 token 互换实现的 IDOR**：你保持自己的访问权限，但使用另一个角色才能访问的端点，只替换授权 token（常见于报表下载场景）。
-    
+
 - **"伪装"的 IDOR**：ID 是 UUID/哈希/加密值。有时 API 本身会返回某个参数加密后的值，这样就可以复用它。
-    
+
 - **BFLA**：特权功能对应的端点存在且会响应，只是本不应该接受你当前的角色。
 
 
@@ -1195,9 +1287,9 @@ POST /autenticacao/api/v1/alterar-senha HTTP/2
 
 ## 检查用户的所有权
 ```js
-// 错误 —— 信任客户端传来的 id  
-`$pedido = Pedido::find($_GET['id']);`  
-// 正确 —— 只有对象属于当前登录用户时才返回  
+// 错误 —— 信任客户端传来的 id
+`$pedido = Pedido::find($_GET['id']);`
+// 正确 —— 只有对象属于当前登录用户时才返回
 `$pedido = Pedido::where('id', $req->id)->where('dono_id', auth()->id())->firstOrFail();`
 ```
 
@@ -1261,9 +1353,9 @@ def block_store(request): ...
 
 ATO（账户接管）的影响是最直接的，不需要链式利用也不需要想象：
 
-- 完全访问受害者账户：读取PII（姓名、CPF、电话、地址）、历史记录、消息。  
-- 锁定：一旦更改了受害者的密码，你就将其踢出了自己的账户（对她造成拒绝服务）。  
-- 规模：如果攻击向量是可伪造的JWT，或者是一个接受任意用户的密码重置，那你接管的不是一个账户，而是任意一个账户。这会把严重性从"高"提升到"严重"。  
+- 完全访问受害者账户：读取PII（姓名、CPF、电话、地址）、历史记录、消息。
+- 锁定：一旦更改了受害者的密码，你就将其踢出了自己的账户（对她造成拒绝服务）。
+- 规模：如果攻击向量是可伪造的JWT，或者是一个接受任意用户的密码重置，那你接管的不是一个账户，而是任意一个账户。这会把严重性从"高"提升到"严重"。
 - 支点：接管管理员账户会打开BFLA、内部面板访问权限等。ATO同时也是多条利用链的终点：窃取JWT的XSS、泄露OAuth code的开放重定向（参见漏洞链式利用）。
 
 # 原理
@@ -1452,6 +1544,21 @@ var navData = [
     {id:'project-yeli-blog', title:'yeli 数字花园'},
   ]},
 ];
+
+// ===== Article Metadata =====
+var articleMeta = {
+  'about': {date:'2026-08-25', cat:'关于', tags:['关于']},
+  'links': {date:'2026-08-25', cat:'关于', tags:['友链']},
+  'kmp-structure': {date:'2026-08-20', cat:'技术笔记', tags:['Kotlin','KMP','跨平台']},
+  'spring-jpa-field-mapping': {date:'2026-08-25', cat:'技术笔记', tags:['Java','Spring','JPA']},
+  'github-actions-hugo-deploy': {date:'2026-08-22', cat:'技术笔记', tags:['GitHub Actions','CI/CD']},
+  'security-foundation': {date:'2026-08-25', cat:'网络安全', tags:['网安','基础']},
+  'security-bounty-hunter': {date:'2026-08-25', cat:'网络安全', tags:['网安','赏金猎人']},
+  'security-idor-bola-bfla': {date:'2026-08-25', cat:'网络安全', tags:['网安','漏洞','IDOR']},
+  'security-ato': {date:'2026-08-25', cat:'网络安全', tags:['网安','漏洞','ATO']},
+  'essay-why-writing': {date:'2026-08-23', cat:'随笔', tags:['随笔','写作']},
+  'project-yeli-blog': {date:'2026-08-25', cat:'项目', tags:['Hugo','博客']},
+};
 
 // ===== Utilities =====
 function escapeHtml(s){
@@ -1657,7 +1764,10 @@ function renderMarkdown(md){
     var hMatch = line.match(/^(#{1,4})\s+(.+)$/);
     if(hMatch){
       var level = hMatch[1].length;
-      result.push('<h'+level+'>'+processInline(hMatch[2])+'</h'+level+'>');
+      var headingText = processInline(hMatch[2]);
+      // Generate an ID for TOC anchoring
+      var headingId = 'h-' + i + '-' + level;
+      result.push('<h'+level+' id="'+headingId+'">'+headingText+'</h'+level+'>');
       i++;
       continue;
     }
@@ -1757,12 +1867,79 @@ function renderMarkdown(md){
   return result.join('\n');
 }
 
+// ===== Breadcrumb Generator =====
+function getBreadcrumb(id){
+  if(id === 'home') return '<a href="#/home" class="internal-link" data-route="#/home">首页</a>';
+  var meta = articleMeta[id];
+  if(!meta) return '<a href="#/home" class="internal-link" data-route="#/home">首页</a>';
+  // Find the nav title
+  var title = '';
+  for(var i=0;i<navData.length;i++){
+    var entry = navData[i];
+    if(entry.type==='item' && entry.id===id){ title = entry.title; break; }
+    if(entry.type==='category'){
+      for(var j=0;j<entry.items.length;j++){
+        if(entry.items[j].id===id){ title = entry.items[j].title; break; }
+      }
+      if(title) break;
+    }
+  }
+  var html = '<a href="#/home" class="internal-link" data-route="#/home">首页</a>';
+  html += '<span class="sep">&rsaquo;</span>';
+  html += '<span>'+escapeHtml(meta.cat)+'</span>';
+  html += '<span class="sep">&rsaquo;</span>';
+  html += '<span class="current">'+escapeHtml(title || id)+'</span>';
+  return html;
+}
+
+// ===== Reading Time Calculator =====
+function calculateReadingTime(md){
+  if(!md) return 1;
+  // Count Chinese characters + English words
+  var chineseChars = (md.match(/[\u4e00-\u9fa5]/g) || []).length;
+  var englishWords = (md.replace(/[\u4e00-\u9fa5]/g,' ').match(/[a-zA-Z]+/g) || []).length;
+  // ~300 chars/min for Chinese, ~200 words/min for English
+  var totalMinutes = (chineseChars / 300) + (englishWords / 200);
+  return Math.max(1, Math.ceil(totalMinutes));
+}
+
+// ===== TOC Generator =====
+function generateTOC(contentEl){
+  var tocList = document.getElementById('tocList');
+  if(!tocList) return;
+  var headings = contentEl.querySelectorAll('h2, h3');
+  if(headings.length === 0){
+    tocList.innerHTML = '<div class="toc-empty">无目录</div>';
+    return;
+  }
+  var html = '';
+  headings.forEach(function(h, idx){
+    var level = h.tagName.toLowerCase();
+    var text = h.textContent || '';
+    var hid = h.id || ('toc-h-'+idx);
+    if(!h.id) h.id = hid;
+    var cls = level === 'h3' ? 'toc-item level-3' : 'toc-item';
+    html += '<div class="'+cls+'" data-scroll="'+hid+'">'+escapeHtml(text)+'</div>';
+  });
+  tocList.innerHTML = html;
+  // Bind click to scroll
+  tocList.querySelectorAll('.toc-item').forEach(function(item){
+    item.addEventListener('click', function(){
+      var targetId = item.getAttribute('data-scroll');
+      var target = document.getElementById(targetId);
+      if(target){
+        target.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    });
+  });
+}
+
 // ===== Home Page Renderer =====
 function renderHome(){
   var html = '<div class="home-hero">';
   html += '<h1>YeLi</h1>';
   html += '<div class="home-tagline">代码 · 折腾 · 记录</div>';
-  html += '<div class="home-desc">这里记录我在技术、项目、生活中的折腾过程。相信「写下来」是对抗遗忘最好的方式。</div>';
+  html += '<div class="home-desc">这里记录我在技术、项目、生活中的折腾过程。<br>相信「写下来」是对抗遗忘最好的方式。</div>';
   html += '<div class="home-nav">';
   html += '<a href="#/about" class="internal-link" data-route="#/about">关于</a>';
   html += '<a href="#/kmp-structure" class="internal-link" data-route="#/kmp-structure">技术笔记</a>';
@@ -1825,9 +2002,15 @@ function loadArticle(id){
   }
   
   if(id === 'home'){
-    content.innerHTML = renderHome();
+    var homeHtml = '<div class="breadcrumb">' + getBreadcrumb('home') + '</div>';
+    homeHtml += renderHome();
+    content.innerHTML = homeHtml;
     currentArticle = 'home';
     bindInternalLinks();
+    // Clear TOC for home page
+    generateTOC(content);
+    // Update graph highlight
+    updateGraphHighlight('home');
     return;
   }
   
@@ -1836,11 +2019,64 @@ function loadArticle(id){
     var md = script.textContent || '';
     // Trim leading/trailing whitespace
     md = md.replace(/^\n+/, '').replace(/\s+$/, '');
-    content.innerHTML = renderMarkdown(md);
+    var articleHtml = renderMarkdown(md);
+    
+    // Build the full content with breadcrumb, title, meta, tags
+    var meta = articleMeta[id];
+    var fullHtml = '';
+    
+    // Breadcrumb
+    fullHtml += '<div class="breadcrumb">' + getBreadcrumb(id) + '</div>';
+    
+    // Title (from nav data)
+    var title = '';
+    for(var i=0;i<navData.length;i++){
+      var entry = navData[i];
+      if(entry.type==='item' && entry.id===id){ title = entry.title; break; }
+      if(entry.type==='category'){
+        for(var j=0;j<entry.items.length;j++){
+          if(entry.items[j].id===id){ title = entry.items[j].title; break; }
+        }
+        if(title) break;
+      }
+    }
+    fullHtml += '<h1 class="article-title">'+escapeHtml(title || id)+'</h1>';
+    
+    // Metadata (date + reading time)
+    if(meta){
+      var readingTime = calculateReadingTime(md);
+      fullHtml += '<div class="article-meta">';
+      fullHtml += '<span>'+meta.date+'</span>';
+      fullHtml += '<span class="meta-sep">&middot;</span>';
+      fullHtml += '<span>'+readingTime+' 分钟阅读</span>';
+      fullHtml += '</div>';
+      
+      // Tags
+      if(meta.tags && meta.tags.length){
+        fullHtml += '<div class="article-tags">';
+        meta.tags.forEach(function(tag){
+          fullHtml += '<span class="tag-badge">'+escapeHtml(tag)+'</span>';
+        });
+        fullHtml += '</div>';
+      }
+    }
+    
+    fullHtml += '<hr class="article-divider">';
+    fullHtml += articleHtml;
+    
+    content.innerHTML = fullHtml;
     currentArticle = id;
     bindInternalLinks();
+    
+    // Generate TOC
+    generateTOC(content);
+    
+    // Update graph highlight
+    updateGraphHighlight(id);
   } else {
-    content.innerHTML = '<h1>404</h1><p>文章未找到。</p>';
+    content.innerHTML = '<div class="breadcrumb">' + getBreadcrumb('home') + '</div><h1>404</h1><p>文章未找到。</p>';
+    generateTOC(content);
+    updateGraphHighlight(null);
   }
   
   // Close sidebar on mobile
@@ -1950,6 +2186,200 @@ function setupMobileMenu(){
   });
 }
 
+// ===== TOC Toggle =====
+function setupTOCToggle(){
+  var tocToggle = document.getElementById('tocToggle');
+  var tocList = document.getElementById('tocList');
+  if(tocToggle && tocList){
+    tocToggle.addEventListener('click', function(){
+      tocToggle.classList.toggle('collapsed');
+      tocList.classList.toggle('collapsed');
+    });
+  }
+}
+
+// ===== Graph Data =====
+var graphNodes = [
+  {id:'home',label:'首页',cat:'meta'},
+  {id:'about',label:'关于',cat:'meta'},
+  {id:'links',label:'友链',cat:'meta'},
+  {id:'kmp-structure',label:'KMP',cat:'tech'},
+  {id:'spring-jpa-field-mapping',label:'JPA',cat:'tech'},
+  {id:'github-actions-hugo-deploy',label:'Actions',cat:'tech'},
+  {id:'security-foundation',label:'安全基石',cat:'security'},
+  {id:'security-bounty-hunter',label:'赏金猎人',cat:'security'},
+  {id:'security-idor-bola-bfla',label:'IDOR',cat:'security'},
+  {id:'security-ato',label:'ATO',cat:'security'},
+  {id:'essay-why-writing',label:'写下来',cat:'essay'},
+  {id:'project-yeli-blog',label:'数字花园',cat:'project'},
+];
+var graphLinks = [
+  {s:'kmp-structure',t:'spring-jpa-field-mapping'},
+  {s:'spring-jpa-field-mapping',t:'github-actions-hugo-deploy'},
+  {s:'kmp-structure',t:'github-actions-hugo-deploy'},
+  {s:'security-foundation',t:'security-bounty-hunter'},
+  {s:'security-bounty-hunter',t:'security-idor-bola-bfla'},
+  {s:'security-idor-bola-bfla',t:'security-ato'},
+  {s:'security-foundation',t:'security-idor-bola-bfla'},
+  {s:'security-foundation',t:'security-ato'},
+  {s:'home',t:'about'},
+  {s:'home',t:'essay-why-writing'},
+  {s:'home',t:'project-yeli-blog'},
+  {s:'home',t:'security-bounty-hunter'},
+  {s:'home',t:'kmp-structure'},
+  {s:'essay-why-writing',t:'project-yeli-blog'},
+  {s:'project-yeli-blog',t:'github-actions-hugo-deploy'},
+  {s:'project-yeli-blog',t:'links'},
+];
+var graphColors = {meta:'#8e8e8e',tech:'#60a5fa',security:'#f87171',essay:'#fbbf24',project:'#4ade80'};
+var graphCatNames = {meta:'导航',tech:'技术',security:'安全',essay:'随笔',project:'项目'};
+
+// ===== Small Graph (Right Sidebar) =====
+var graphNodeEls = {};
+var graphSimNodes = [];
+var graphSimLinks = [];
+var graphSimRunning = false;
+
+function initSmallGraph(){
+  var svg = document.getElementById('rightGraph');
+  if(!svg) return;
+  var NS = 'http://www.w3.org/2000/svg';
+  
+  // Container dimensions
+  var W = 240, H = 220;
+  var cx = W/2, cy = H/2;
+  
+  // Clear
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  
+  // Groups
+  var gL = document.createElementNS(NS,'g'); svg.appendChild(gL);
+  var gN = document.createElementNS(NS,'g'); svg.appendChild(gN);
+  
+  // Nodes init
+  graphSimNodes = graphNodes.map(function(n){
+    return {id:n.id,label:n.label,cat:n.cat,
+      x:cx+(Math.random()-.5)*120, y:cy+(Math.random()-.5)*100,
+      vx:0,vy:0, r:n.cat==='meta'?5:4
+    };
+  });
+  var nMap={}; graphSimNodes.forEach(function(n){nMap[n.id]=n;});
+  graphSimLinks = graphLinks.map(function(l){return {s:nMap[l.s],t:nMap[l.t]};}).filter(function(l){return l.s&&l.t;});
+  
+  // Link elements
+  var lEls = graphSimLinks.map(function(l){
+    var ln = document.createElementNS(NS,'line');
+    ln.setAttribute('class','graph-link-small');
+    gL.appendChild(ln); return ln;
+  });
+  
+  // Node elements
+  graphNodeEls = {};
+  graphSimNodes.forEach(function(n){
+    var g = document.createElementNS(NS,'g');
+    g.setAttribute('class','graph-node'); g.setAttribute('data-id',n.id);
+    var c = document.createElementNS(NS,'circle');
+    c.setAttribute('r',n.r); c.setAttribute('fill',graphColors[n.cat]||'#888');
+    c.setAttribute('stroke','rgba(255,255,255,.15)'); c.setAttribute('stroke-width','1');
+    g.appendChild(c);
+    var t = document.createElementNS(NS,'text');
+    t.setAttribute('class','graph-node-label'); t.setAttribute('text-anchor','middle');
+    t.setAttribute('y',n.r+10); t.setAttribute('fill','#999'); t.textContent=n.label;
+    g.appendChild(t);
+    gN.appendChild(g);
+    graphNodeEls[n.id] = {group:g, circle:c, label:t};
+    g.addEventListener('click',function(e){
+      e.stopPropagation(); window.location.hash='#/'+n.id;
+    });
+  });
+  
+  // Simulation
+  graphSimRunning = true;
+  var frame = 0;
+  
+  function tick(){
+    frame++;
+    var a = Math.max(0, 1 - frame/350);
+    
+    // Repulsion
+    for(var i=0;i<graphSimNodes.length;i++){
+      for(var j=i+1;j<graphSimNodes.length;j++){
+        var A=graphSimNodes[i],B=graphSimNodes[j];
+        var dx=A.x-B.x, dy=A.y-B.y, d=Math.sqrt(dx*dx+dy*dy)||1;
+        var f=800/(d*d)*a;
+        var fx=dx/d*f, fy=dy/d*f;
+        A.vx+=fx; A.vy+=fy; B.vx-=fx; B.vy-=fy;
+      }
+    }
+    
+    // Attraction (spring)
+    graphSimLinks.forEach(function(l){
+      var dx=l.t.x-l.s.x, dy=l.t.y-l.s.y, d=Math.sqrt(dx*dx+dy*dy)||1;
+      var f=(d-45)*0.03*a;
+      var fx=dx/d*f, fy=dy/d*f;
+      l.s.vx+=fx; l.s.vy+=fy; l.t.vx-=fx; l.t.vy-=fy;
+    });
+    
+    // Centering
+    graphSimNodes.forEach(function(n){
+      n.vx+=(cx-n.x)*0.015*a; n.vy+=(cy-n.y)*0.015*a;
+    });
+    
+    // Update positions
+    graphSimNodes.forEach(function(n){
+      n.vx*=0.82; n.vy*=0.82; n.x+=n.vx; n.y+=n.vy;
+      n.x=Math.max(20,Math.min(W-20,n.x)); n.y=Math.max(20,Math.min(H-20,n.y));
+    });
+    
+    // Render
+    graphSimNodes.forEach(function(n){
+      var el = graphNodeEls[n.id];
+      if(el) el.group.setAttribute('transform','translate('+n.x+','+n.y+')');
+    });
+    lEls.forEach(function(el,i){
+      el.setAttribute('x1',graphSimLinks[i].s.x); el.setAttribute('y1',graphSimLinks[i].s.y);
+      el.setAttribute('x2',graphSimLinks[i].t.x); el.setAttribute('y2',graphSimLinks[i].t.y);
+    });
+    
+    if(a>0.01 && graphSimRunning){
+      requestAnimationFrame(tick);
+    }
+  }
+  tick();
+}
+
+function updateGraphHighlight(id){
+  // Reset all nodes
+  graphSimNodes.forEach(function(n){
+    var el = graphNodeEls[n.id];
+    if(!el) return;
+    if(n.id === id){
+      // Highlight current node
+      el.circle.setAttribute('r', n.r + 3);
+      el.circle.setAttribute('stroke', 'var(--accent-light)');
+      el.circle.setAttribute('stroke-width', '2');
+      el.label.setAttribute('fill', '#e0e0e0');
+      el.group.classList.add('graph-node-current');
+    } else {
+      el.circle.setAttribute('r', n.r);
+      el.circle.setAttribute('stroke', 'rgba(255,255,255,.15)');
+      el.circle.setAttribute('stroke-width', '1');
+      el.label.setAttribute('fill', '#999');
+      el.group.classList.remove('graph-node-current');
+    }
+  });
+  
+  // Briefly restart simulation to reposition
+  if(graphSimRunning){
+    // Nudge the current node towards center
+    var currentNode = graphSimNodes.find(function(n){return n.id===id;});
+    if(currentNode){
+      currentNode.vx += (120 - currentNode.x) * 0.01;
+      currentNode.vy += (110 - currentNode.y) * 0.01;
+    }
+  }
+}
+
 // ===== Init =====
 function init(){
   buildSidebar();
@@ -1957,6 +2387,8 @@ function init(){
   setupCategories();
   setupSearch();
   setupMobileMenu();
+  setupTOCToggle();
+  initSmallGraph();
   window.addEventListener('hashchange', handleRoute);
   handleRoute();
 }
