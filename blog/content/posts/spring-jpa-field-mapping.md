@@ -9,10 +9,6 @@ categories: ["tech"]
 tags: ["Java", "Spring Boot", "JPA", "踩坑"]
 keywords: ["JPA", "字段映射", "snake_case"]
 lastmod: 2026-08-25
-ShowToc: true
-TocOpen: true
-ShowReadingTime: true
-ShowShareButtons: true
 ---
 
 ## 背景

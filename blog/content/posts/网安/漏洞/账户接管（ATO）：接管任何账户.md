@@ -1,3 +1,16 @@
+---
+title: 账户接管（ATO）：接管任何账户
+date: 2026-08-25
+draft: false
+description: 账户接管（ATO）的原理、攻击向量与防御策略
+categories:
+  - tech
+tags:
+  - 网安
+  - 漏洞
+  - ATO
+  - 身份验证
+---
 
 # 基础
 

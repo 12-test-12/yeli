@@ -9,9 +9,6 @@ categories: ["devlog"]
 tags: ["GitHub Actions", "Hugo", "CI/CD", "Pages"]
 keywords: ["Hugo", "GitHub Pages", "自动化部署"]
 lastmod: 2026-08-22
-ShowToc: false
-ShowReadingTime: true
-ShowShareButtons: true
 ---
 
 ## 背景

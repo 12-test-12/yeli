@@ -9,10 +9,6 @@ categories: ["tech"]
 tags: ["Kotlin", "KMP", "跨平台", "Compose Multiplatform"]
 keywords: ["KMP", "多端开发", "模块化"]
 lastmod: 2026-08-20
-ShowToc: true
-TocOpen: false
-ShowReadingTime: true
-ShowShareButtons: true
 ---
 
 ## KMP 是什么

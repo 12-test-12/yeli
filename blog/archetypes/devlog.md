@@ -11,8 +11,6 @@ tags: []
 series: []
 keywords: ["开发记录"]
 lastmod: {{ .Date }}
-ShowToc: false
-ShowReadingTime: true
 ---
 
 ## 背景

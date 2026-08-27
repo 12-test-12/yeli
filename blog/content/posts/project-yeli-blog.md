@@ -9,14 +9,6 @@ categories: ["project"]
 tags: ["Hugo", "博客", "个人项目", "Stack 主题"]
 keywords: ["Hugo", "数字花园", "Stack"]
 lastmod: 2026-08-25
-ShowToc: true
-TocOpen: true
-ShowReadingTime: true
-ShowShareButtons: true
-cover:
-  image: ""
-  alt: "yeli-blog"
-  caption: ""
 ---
 
 ## 项目简介

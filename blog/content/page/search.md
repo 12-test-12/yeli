@@ -3,9 +3,6 @@ title: "搜索"
 description: "站内搜索"
 date: 2026-08-25
 draft: false
-ShowToc: false
-ShowReadingTime: false
-ShowShareButtons: false
 layout: "search"
 ---
 

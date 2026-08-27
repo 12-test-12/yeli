@@ -12,10 +12,12 @@ defaultContentLanguage: zh-cn
 hasCJKLanguage: true
 defaultContentLanguageInSubdir: false
 
-# 主题参数：始终深色 + 全屏极客风
+pagination:
+  pagerSize: 10
+
+# 主题参数
 params:
-  # ===== 基础信息 (个人 IP 区域) =====
-  title: "YeLi"
+  # ===== 基础信息 =====
   description: "代码 · 折腾 · 记录"
   keywords:
     - 博客
@@ -26,52 +28,85 @@ params:
   images:
     - /img/avatar.svg
 
-  # ===== 关键：始终深色 + 极简全屏 =====
-  defaultTheme: dark
-  ShowReadingTime: true
-  ShowShareButtons: true
-  ShowPostNavLinks: true
-  ShowBreadCrumbs: false
-  ShowCodeCopyButtons: true
-  ShowRssButtonInSectionTermList: true
-  disableSpecial1stPost: true
-  favicon: /favicon.svg
-
-  # ===== 极客风：自定义 CSS / JS（经 layouts/partials/head/custom.html 注入）=====
-
-  # ===== 文章卡片样式：全屏 hero 风格 =====
-  cardStyle:
-    view: fullcover
-    list:
-      columns: 1
-    grid:
-      columns: 2
-
-  # ===== 菜单栏 (极简) =====
   mainSections:
     - posts
-  sections:
-    - posts
+  featuredImageField: image
+  rssFullContent: true
+  favicon: /favicon.svg
+
+  # ===== footer =====
+  footer:
+    since: 2026
+    customText:
+
+  # ===== 日期格式 =====
+  dateFormat:
+    published: "2006-01-02"
+    lastUpdated: "2006-01-02 15:04 MST"
+
+  # ===== 侧边栏（CSS 隐藏了侧栏，但模板仍需要这些参数避免报错）=====
+  sidebar:
+    compact: true
+    emoji:
+    subtitle: "代码 · 折腾 · 记录"
+    avatar:
+      enabled: false
+      local: true
+      src: img/avatar.png
+
+  # ===== 文章设置 =====
+  article:
+    headingAnchor: false
+    math: false
+    toc: true
+    readingTime: true
+    license:
+      enabled: false
+      default: "Licensed under CC BY-NC-SA 4.0"
+
+  # ===== 评论 =====
+  comments:
+    enabled: false
+    provider: disqus
+
+  # ===== Widgets（必须用对象格式，不能是字符串）=====
+  # 可用 widget: search, archives, categories, tag-cloud, toc
   widgets:
     homepage:
-      - search
-      - archives
+      - type: search
+      - type: archives
+        params:
+          limit: 5
+      - type: categories
+        params:
+          limit: 10
     page:
-      - search
-    sidebar:
-      - search
-      - social
-      - archives
-  social:
-    - identifier: github
-      name: GitHub
-      url: https://github.com/12-test-12
-    - identifier: rss
-      name: RSS
-      url: /yeli/index.xml
+      - type: toc
 
-  comments:
-    enable: false
+  # ===== OpenGraph =====
+  opengraph:
+    twitter:
+      site:
+      card: summary_large_image
+
+  # ===== 默认图片 =====
+  defaultImage:
+    opengraph:
+      enabled: false
+      local: false
+      src:
+
+  # ===== 颜色方案：强制深色 =====
+  colorScheme:
+    toggle: false
+    default: dark
+
+  # ===== 图片处理 =====
+  imageProcessing:
+    cover:
+      enabled: true
+    content:
+      enabled: true
 
 # =============================================================
 # 输出格式
@@ -91,7 +126,7 @@ outputs:
     - RSS
 
 # =============================================================
-# 菜单 (极简 4 个)
+# 菜单
 # =============================================================
 menu:
   main:
@@ -111,6 +146,18 @@ menu:
       name: 关于
       pageRef: /about/
       weight: 4
+
+  social:
+    - identifier: github
+      name: GitHub
+      url: https://github.com/12-test-12
+      params:
+        icon: brand-github
+    - identifier: rss
+      name: RSS
+      url: /yeli/index.xml
+      params:
+        icon: rss
 
 # =============================================================
 # Permalinks
@@ -149,3 +196,16 @@ taxonomies:
   category: categories
   tag: tags
   series: series
+
+# =============================================================
+# Related content
+# =============================================================
+related:
+  includeNewer: true
+  threshold: 60
+  toLower: false
+  indices:
+    - name: tags
+      weight: 100
+    - name: categories
+      weight: 200

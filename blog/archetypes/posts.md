@@ -11,11 +11,6 @@ tags: []
 series: []
 keywords: []
 lastmod: {{ .Date }}
-ShowToc: true
-TocOpen: false
-ShowReadingTime: true
-ShowShareButtons: true
-ShowPostNavLinks: true
 ---
 
 <!-- 在此开始写正文 -->

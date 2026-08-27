@@ -27,7 +27,7 @@
 <h2 class="section-title">最近更新</h2>
 <section class="article-list--compact">
   {{ range first 8 (where .Site.RegularPages "Type" "in" (slice "posts" "project" "devlog" "essay")) }}
-    {{ .Render "article-list/compact" }}
+    {{ partial "article-list/compact" . }}
   {{ end }}
 </section>
 

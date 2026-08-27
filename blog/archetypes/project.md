@@ -11,12 +11,6 @@ tags: []
 series: []
 keywords: ["项目", "开源"]
 lastmod: {{ .Date }}
-ShowToc: true
-TocOpen: true
-cover:
-  image: ""
-  alt: ""
-  caption: ""
 ---
 
 ## 项目简介

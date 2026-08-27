@@ -3,9 +3,6 @@ title: "友链"
 description: "常逛的博客 / 站点"
 date: 2026-08-25
 draft: false
-ShowToc: false
-ShowReadingTime: false
-ShowShareButtons: false
 ---
 
 ## 友情链接

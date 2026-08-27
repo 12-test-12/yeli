@@ -3,9 +3,7 @@ title: "关于我"
 description: "YeLi 的个人介绍、技术栈与联系方式"
 date: 2026-08-25
 draft: false
-ShowToc: false
-ShowReadingTime: false
-ShowShareButtons: true
+toc: false
 ---
 
 ## About Me

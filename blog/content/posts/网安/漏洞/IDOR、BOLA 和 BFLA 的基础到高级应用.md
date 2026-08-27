@@ -1,3 +1,11 @@
+---
+title: "IDOR、BOLA 和 BFLA 的基础到高级应用"
+date: 2026-08-25
+draft: false
+description: "访问控制漏洞的完整指南：从 IDOR 枚举到 BFLA 特权提升"
+categories: ["tech"]
+tags: ["网安", "漏洞", "IDOR", "BOLA", "BFLA", "访问控制"]
+---
 
 可能大家看到标题有点懵逼，其实用通俗的话来讲就是：**你看到了你不该看到的东西**
 

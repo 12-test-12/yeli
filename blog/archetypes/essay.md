@@ -11,8 +11,6 @@ tags: []
 series: []
 keywords: ["随笔"]
 lastmod: {{ .Date }}
-ShowToc: false
-ShowReadingTime: true
 ---
 
 在这里自由地写。短文、长文、碎片想法都可以。

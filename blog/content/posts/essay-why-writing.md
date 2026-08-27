@@ -9,9 +9,6 @@ categories: ["essay"]
 tags: ["随笔", "写作", "数字花园"]
 keywords: ["写作", "记录"]
 lastmod: 2026-08-23
-ShowToc: false
-ShowReadingTime: true
-ShowShareButtons: true
 ---
 
 我以前觉得，写东西给别人看，是需要"准备好了"才能做的事。
