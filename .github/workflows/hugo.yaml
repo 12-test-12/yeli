@@ -1,4 +1,4 @@
-name: Deploy Hugo to GitHub Pages
+name: Deploy to GitHub Pages
 on:
   push:
     branches:
@@ -15,36 +15,19 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
 
-      - name: Configure Pages
-        id: pages
-        uses: actions/configure-pages@v6
-
-      - name: Setup Hugo (extended)
-        uses: peaceiris/actions-hugo@v3
-        with:
-          hugo-version: 'latest'
-          extended: true
-
-      - name: Build with baseURL
-        working-directory: blog
-        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: blog/public
+          path: docs
 
   deploy:
     needs: build
