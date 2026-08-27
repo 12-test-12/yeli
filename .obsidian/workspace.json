@@ -4,39 +4,53 @@
     "type": "split",
     "children": [
       {
-        "id": "60919714a185de40",
+        "id": "3004878691e560c1",
         "type": "tabs",
         "children": [
           {
-            "id": "64c4487fca5eef5e",
+            "id": "2559c55b18e319bf",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "欢迎.md",
+                "file": "blog/content/posts/project-yeli-blog.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "欢迎"
+              "title": "project-yeli-blog"
             }
           },
           {
-            "id": "4d622d8a8b173138",
+            "id": "0d30e235e618a6ba",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "blog/content/posts/spring-jpa-field-mapping.md",
+                "file": "blog/content/posts/网安/漏洞/账户接管（ATO）：接管任何账户.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "spring-jpa-field-mapping"
+              "title": "账户接管（ATO）：接管任何账户"
+            }
+          },
+          {
+            "id": "63d4e54c1e5d8b48",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "blog/content/posts/网安/漏洞/IDOR、BOLA 和 BFLA 的基础到高级应用.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "IDOR、BOLA 和 BFLA 的基础到高级应用"
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -98,7 +112,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 271.5
   },
   "right": {
     "id": "0ef44c5c3be84d43",
@@ -114,7 +128,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "blog/content/posts/spring-jpa-field-mapping.md",
+                "file": "blog/content/posts/网安/漏洞/IDOR、BOLA 和 BFLA 的基础到高级应用.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -133,9 +147,9 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "未命名.md",
+                "file": "blog/content/posts/网安/漏洞/IDOR、BOLA 和 BFLA 的基础到高级应用.md",
                 "linksCollapsed": false,
-                "unlinkedCollapsed": true
+                "unlinkedCollapsed": false
               },
               "icon": "links-going-out",
               "title": "出链"
@@ -176,7 +190,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "未命名.md",
+                "file": "blog/content/posts/网安/漏洞/IDOR、BOLA 和 BFLA 的基础到高级应用.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -184,35 +198,64 @@
               "icon": "lucide-list",
               "title": "大纲"
             }
+          },
+          {
+            "id": "d875ba189fca2f5b",
+            "type": "leaf",
+            "state": {
+              "type": "note-preview",
+              "state": {},
+              "icon": "clipboard-paste",
+              "title": "笔记预览"
+            }
           }
-        ]
+        ],
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 359.6666259765625
   },
   "left-ribbon": {
     "hiddenItems": {
       "switcher:打开快速切换": false,
-      "graph:查看关系图谱": false,
       "canvas:新建白板": false,
+      "graph:查看关系图谱": false,
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
       "command-palette:打开命令面板": false,
       "bases:新建数据库": false,
       "obsidian-excalidraw-plugin:新建绘图文件": false,
-      "note-to-mp:复制到公众号": false,
-      "file-tree-alternative:File Tree Alternative Plugin": false
+      "note-to-mp:复制到公众号": false
     }
   },
-  "active": "dc37f414d72edbff",
+  "active": "63d4e54c1e5d8b48",
   "lastOpenFiles": [
-    "blog/themes/hugo-theme-stack/README.md",
-    "blog/themes/hugo-theme-stack/LICENSE",
+    "blog/content/posts/网安/漏洞/账户接管（ATO）：接管任何账户.md",
+    "blog/content/posts/网安/赏金猎人.md",
+    "blog/content/posts/网安/基石.md",
+    "blog/content/posts/网安/漏洞/IDOR、BOLA 和 BFLA 的基础到高级应用.md",
+    "未完成列表.md",
+    "().md",
+    "Pasted image 20260826175724.png",
+    "Pasted image 20260826175704.png",
+    "Pasted image 20260826175626.png",
+    "blog/content/posts/网安/漏洞",
     "blog/content/posts/project-yeli-blog.md",
+    "Pasted image 20260826100027.png",
+    "欢迎.md",
+    "blog/content/posts/essay-why-writing.md",
+    "blog/content/posts/网安",
+    "blog/content/page/search.md",
+    "blog/content/page/links.md",
+    "blog/content/page/archives.md",
+    "blog/content/page/about.md",
+    "blog/content/posts/spring-jpa-field-mapping.md",
     "blog/content/posts/kmp-structure.md",
     "blog/content/posts/github-actions-hugo-deploy.md",
-    "blog/content/posts/essay-why-writing.md",
+    "未命名.base",
+    "blog/themes/hugo-theme-stack/README.md",
+    "blog/themes/hugo-theme-stack/LICENSE",
     "blog/README.md",
     "blog/archetypes/devlog.md",
     "blog/hugo.yaml.tmp.21776.2d8204cb8a24",
@@ -222,12 +265,8 @@
     "blog/layouts/partials/head",
     "blog/static/img/avatar.svg",
     "blog/static/img/avatar.svg.tmp.21776.fc396e892fc2",
-    "blog/content/page/about.md.tmp.21776.a6082964dee1",
-    "blog/content/page/about.md.tmp.21776.b8595a86e9b7",
-    "blog/static/js/geek.js.tmp.21776.b9a81d5fe8cc",
     "blog/archetypes/essay.md",
     "blog/archetypes/posts.md",
-    "blog/content/posts/spring-jpa-field-mapping.md",
     "blog/static/favicon.svg",
     "blog/themes/hugo-theme-stack/demo/content/categories/Test/_index.md",
     "blog/themes/hugo-theme-stack/demo/content/categories/Test/hutomo-abrianto-l2jk-uxb1BY-unsplash.jpg",
@@ -238,21 +277,6 @@
     "blog/themes/hugo-theme-stack/demo/content/post/placeholder-text/index.ar.md",
     "blog/themes/hugo-theme-stack/demo/content/post/emoji-support/the-creative-exchange-d2zvqp3fpro-unsplash.jpg",
     "blog/themes/hugo-theme-stack/demo/content/post/emoji-support/index.md",
-    "blog/themes/hugo-theme-stack/demo/content/post/rich-content/index.md",
-    "blog/themes/hugo-theme-stack/demo/content/post/math-typesetting/index.md",
-    "blog/themes/hugo-theme-stack/assets/img/avatar.png",
-    "blog/themes/hugo-theme-stack/demo/content/post/chinese-test/luca-bravo-alS7ewQ41M8-unsplash.jpg",
-    "blog/themes/hugo-theme-stack/demo/content/post/chinese-test/index.zh-tw.md",
-    "blog/themes/hugo-theme-stack/demo/content/post/chinese-test/index.zh-cn.md",
-    "blog/themes/hugo-theme-stack/demo/content/post/chinese-test/index.ja.md",
-    "blog/themes/hugo-theme-stack/demo/content/post/chinese-test/helena-hertz-wWZzXlDpMog-unsplash.jpg",
-    "blog/themes/hugo-theme-stack/demo/content/post/chinese-test/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg",
-    "blog/themes/hugo-theme-stack/archetypes/tags.md",
-    "blog/themes/hugo-theme-stack/archetypes/default.md",
-    "blog/themes/hugo-theme-stack/archetypes/categories.md",
-    "blog/themes/hugo-theme-stack/demo/content/post/shortcodes/index.zh.md",
-    "blog/themes/hugo-theme-stack/demo/content/post/shortcodes/index.md",
-    "blog/themes/hugo-theme-stack/demo/content/post/shortcodes/index.ja.md",
     "未命名.canvas"
   ]
 }

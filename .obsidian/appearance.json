@@ -1,1 +1,10 @@
-{}
+{
+  "showRibbon": true,
+  "nativeMenus": false,
+  "baseFontSizeAction": false,
+  "cssTheme": "AnuPpuccin",
+  "accentColor": "",
+  "enabledCssSnippets": [
+    "extended-colorschemes"
+  ]
+}
