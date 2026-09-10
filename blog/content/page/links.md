@@ -6,10 +6,9 @@ draft: false
 ---
 
 ## 友情链接
-
 - [Matheus Laidler - Bug Bounty 指南](https://matheuslaidler.github.io/) — 风格参考 1
 - [BobcGn 数字花园](https://bobcgn.github.io/BobcGn-Blogs/) — 风格参考 2
 - [Hugo](https://gohugo.io/) — 静态站点生成器
 - [Stack 主题](https://stack.jimmycai.com/) — Hugo 主题
 
-> 想交换友链？发邮件到 <you@example.com>。
+> 想交换友链？发邮件到 <1498490946@qq.com>。
