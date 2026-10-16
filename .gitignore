@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Quartz Build Outputs & Cache
+public/
+.quartz-cache/
+tsconfig.tsbuildinfo
+
+# Legacy / Temp folders
+temp_*/
+docs/
+.trae-html-share-packages/
+blog/
+
+# System & Editor
+.DS_Store
+.idea/
+.vscode/
+
+# Obsidian local settings that change frequently
+.obsidian/workspace.json
