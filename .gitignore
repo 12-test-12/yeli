@@ -19,3 +19,5 @@ blog/
 
 # Obsidian local settings that change frequently
 .obsidian/workspace.json
+private/
+*.base

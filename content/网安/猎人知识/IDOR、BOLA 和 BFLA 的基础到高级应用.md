@@ -257,4 +257,5 @@ def block_store(request): ...
 - [OWASP A01:2021 — 访问控制失效](https://owasp.org/Top10/A01_2021-Broken_Access_Control/)
 - [reddelexc/hackerone-reports — 顶级 IDOR 报告](https://github.com/reddelexc/hackerone-reports/blob/master/tops_by_bug_type/TOPIDOR.md)
 - [OWASP API 安全——BOLA（API1:2023）](https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/)和[BFLA（API5:2023）](https://owasp.org/API-Security/editions/2023/en/0xa5-broken-function-level-authorization/)
+- [Stop Leaking API Keys: The Backend for Frontend (BFF) Pattern Explained](https://blog.gitguardian.com/stop-leaking-api-keys-the-backend-for-frontend-bff-pattern-explained/)
 

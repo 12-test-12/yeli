@@ -404,6 +404,13 @@ md5("240610708") = 0e462097431906509019562988736854    → 数值 0
 > - [PortSwigger — Authentication](https://portswigger.net/web-security/authentication)
 > - TryHackMe / HackTheBox / DVWA / HackingClub
 
+# 猎物的陷阱（那些不算）
+
+- 找到JWT，淡定哥们，JWT是目前企业他们常用的一个东西，这个但凡是一个正常的企业开发他都会使用，关键是在于你能不能把这个里面的东西给还原出来，也就是解密
+- 在js中，存在一些密钥（钥匙）并不是很稀奇的事情关键是在于他是不是有效的。需要是一个高度敏感的密钥（钥匙）(可以使用[KeyHacks](https://github.com/streaak/keyhacks)进行验证)
+- 如果你可以通过密钥来解码JWT，你已经成功了一半，但是你现在还没有完成后半部分，就这部分决定了你有没有赏金，**也就是你在将JWT加密之后，服务器那边有没有认，没有认就不能够算**
+- `alg=none`以一种格式被拒绝，**它可能以另一种格式通过：测试`none`，，，。`None``nOnE``NONE`
+
 # 防御
 
 > [!node] 思路
@@ -487,3 +494,4 @@ if request.args['state'] != session.pop('oauth_state', None):
 - [ticarpi/jwt_tool](https://github.com/ticarpi/jwt_tool)
 - [wallarm/jwt-secrets（JWT 密钥字典）](https://github.com/wallarm/jwt-secrets)
 - [What is Account Takeover (ATO) — Akamai](https://www.akamai.com/zh/glossary/what-is-account-takeover-ato)
+- [Stop Leaking API Keys: The Backend for Frontend (BFF) Pattern Explained](https://blog.gitguardian.com/stop-leaking-api-keys-the-backend-for-frontend-bff-pattern-explained/)
