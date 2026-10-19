@@ -3,21 +3,23 @@ node_modules/
 
 # Quartz Build Outputs & Cache
 public/
+public
 .quartz-cache/
 tsconfig.tsbuildinfo
 
-# Legacy / Temp folders
-temp_*/
-docs/
-.trae-html-share-packages/
-blog/
+# Obsidian & Local Vault
+.obsidian/
+.obsidian
+*.base
+private/
 
 # System & Editor
 .DS_Store
 .idea/
 .vscode/
 
-# Obsidian local settings that change frequently
-.obsidian/workspace.json
-private/
-*.base
+# Legacy / Temp folders
+temp_*/
+docs/
+blog/
+.trae-html-share-packages/
